@@ -24,16 +24,9 @@ function WorldMaker:generate(width, height, BiomeID, Biome, Place, tileset, tile
 
             tiles[x][y] = Tile(x, y, tileID, tileset, topper, topperset, BiomeID) -- Assuming Tile class is defined
 
-            self:generateEntities(entities)
-            --self:generateObjects(objects)
+            self:generateEntities(entities, width, height)
+            self:generateObjects(objects, width , height)
 
-            for k, entity in ipairs(ENTITY_DEFS) do
-                if (entity.place == Place and entity.biome == Biome) or (entity.place == 'Every' and entity.biome == 'Every') and ENTITY_DEFS[k] ~= 'player' then
-                    if math.random(entity.probability) == 1 and not entity.dead then
-                        table.insert(entities, entity)
-                    end
-                end
-            end
         end
     end
 
@@ -43,11 +36,12 @@ function WorldMaker:generate(width, height, BiomeID, Biome, Place, tileset, tile
     return GameLevel(entities, objects, map) -- Assuming GameLevel class is defined
 end
 
-function WorldMaker:generateEntities(entities)
+function WorldMaker:generateEntities(entities, width, height)
     local types = {}
     for k, _ in pairs(ENTITY_DEFS) do
         table.insert(types, k)
     end
+    types['player'] = nil
 
     for i = 1, 10 do
         local type = types[math.random(#types)]
@@ -57,8 +51,8 @@ function WorldMaker:generateEntities(entities)
             walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
 
             -- Ensure X and Y within bounds of the map
-            x = math.random(MAP_RENDER_OFFSET_X + TILE_SIZE, VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
-            y = math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE, VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16),
+            x = math.random(TILE_SIZE, (width - 1) * TILE_SIZE),
+            y = math.random(TILE_SIZE, (height - 1) * TILE_SIZE),
             
             width = 16,
             height = 16,
@@ -75,20 +69,30 @@ function WorldMaker:generateEntities(entities)
     end
 end
 
-function WorldMaker:generateObjects(objects)
+-- for k, entity in ipairs(ENTITY_DEFS) do
+--     if (entity.place == Place and entity.biome == Biome) or (entity.place == 'Every' and entity.biome == 'Every') and ENTITY_DEFS[k] ~= 'player' then
+--         if math.random(entity.probability) == 1 and not entity.dead then
+--             table.insert(entities, entity)
+--         end
+--     end
+-- end
+
+function WorldMaker:generateObjects(objects, width, height)
     local types = {}
     for k, _ in pairs(GAME_OBJECT_DEFS) do
         table.insert(types, k)
     end
 
-    for i = 1, 10 do
+    for i = 1, 2 do
         local type = types[math.random(#types)]
 
-        table.insert(objects, GameObject {
-            GAME_OBJECT_DEFS[type],
-            -- Ensure X and Y within bounds of the map
-            math.random(MAP_RENDER_OFFSET_X + TILE_SIZE, VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
-            math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE, VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
-        })
+        local objectDef = GAME_OBJECT_DEFS[type] -- Retrieve the object definition
+        local x = math.random(TILE_SIZE, (width - 1) * TILE_SIZE)
+        local y = math.random(TILE_SIZE, (height - 1) * TILE_SIZE)
+        
+        -- Create a new GameObject instance and insert it into the objects table
+        local gameObj = GameObject(objectDef, x, y)
+        table.insert(objects, gameObj)
     end
 end
+

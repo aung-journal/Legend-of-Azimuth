@@ -22,9 +22,9 @@ require 'src/Tile'
 require 'src/TileMap'
 require 'src/GameLevel'
 
-require 'src/world/Doorway'
-require 'src/world/Dungeon'
-require 'src/world/Room'
+-- require 'src/world/Doorway'
+-- require 'src/world/Dungeon'
+-- require 'src/world/Room'
 
 require 'src/states/BaseState'
 

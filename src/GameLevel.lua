@@ -14,6 +14,8 @@ function GameLevel:init(entities, objects, tilemap)
     self.entities = entities
     self.objects = objects
     self.tileMap = tilemap
+    self.adjacentOffsetX = 0
+    self.adjacentOffsetY = 0
 end
 
 --[[
@@ -64,7 +66,7 @@ function GameLevel:render()
     self.tileMap:render()
 
     for k, object in pairs(self.objects) do
-        object:render()
+        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
 
     for k, entity in pairs(self.entities) do

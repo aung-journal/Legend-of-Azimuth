@@ -14,7 +14,7 @@ function World:init(player)
     
     self.topperset = PLAIN_TOPPER_BIOME_IDS[math.random(#PLAIN_TOPPER_BIOME_IDS)]
 
-    self.level = WorldMaker:generate(100, 100, self.BiomeID, self.Biome, self.Place, self.tileset, self.tileID, self.topperset)
+    self.level = WorldMaker:generate(25, 25, self.BiomeID, self.Biome, self.Place, self.tileset, self.tileID, self.topperset)
     self.tileMap = self.level.tileMap
 end
 
@@ -36,7 +36,7 @@ function World:update(dt)
         end
 
         -- collision between the player and entities in the room
-        if not entity.dead and self.player:collides(entity) and not self.player.invulnerable then
+        if not entity.dead and self.player:collides(entity) and not self.invulnerable then
             gSounds['hit-player']:play()
             self.player:damage(1)
             self.player:goInvulnerable(1.5)

@@ -14,7 +14,7 @@ function GameObject:init(def, x, y)
     self.type = def.type
 
     self.texture = def.texture
-    self.frame = def.frame or {1}
+    self.frame = def.frame or 1
 
     -- whether it acts as an obstacle or not
     self.solid = def.solid
@@ -52,13 +52,15 @@ function GameObject:update(dt)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-    if not self.variety then
-        --[self.states[self.state].frame or self.frame],
-        love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame],
-            self.x + adjacentOffsetX, self.y + adjacentOffsetY)
-    else
-        --[self.states[self.state].frame or self.frame[#self.frame]],
-        love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame[math.random(#self.frame)]],
-        self.x + adjacentOffsetX, self.y + adjacentOffsetY)
-    end
+    -- if not self.variety then
+    --     --[self.states[self.state].frame or self.frame],
+    --     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame],
+    --         self.x + adjacentOffsetX or 0, self.y + adjacentOffsetY)
+    -- else
+    --     --[self.states[self.state].frame or self.frame[#self.frame]],
+    --     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame[math.random(#self.frame)]],
+    --     self.x + adjacentOffsetX or 0, self.y + adjacentOffsetY)
+    -- end
+    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame],
+        self.x + adjacentOffsetX or 0, self.y + adjacentOffsetY)
 end
