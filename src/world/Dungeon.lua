@@ -11,6 +11,9 @@ Dungeon = Class{}
 function Dungeon:init(player)
     self.player = player
 
+    self.width = WORLD_MAP_WIDTH
+    self.height = WORLD_MAP_HEIGHT
+
     -- container we could use to store rooms in a static dungeon, but unused here
     self.rooms = {}
 

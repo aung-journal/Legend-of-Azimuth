@@ -68,22 +68,9 @@ function World:generateEntities()
                 health = 1
             }
 
-            -- Adjust entity's position if outside the region
-            if entity.x < (regionNumber - 1) % 3 * regionWidth then
-                entity.x = (regionNumber - 1) % 3 * regionWidth
-            elseif entity.x >= regionNumber % 3 * regionWidth then
-                entity.x = regionNumber % 3 * regionWidth - 1
-            end
-
-            if entity.y < math.floor((regionNumber - 1) / 3) * regionHeight then
-                entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
-            elseif entity.y >= math.floor(regionNumber / 3) * regionHeight then
-                entity.y = math.floor(regionNumber / 3) * regionHeight - 1
-            end
-
             entity.stateMachine = StateMachine {
-                ['walk'] = function() return EntityWalkState(entity) end,
-                ['idle'] = function() return EntityIdleState(entity) end
+                ['walk'] = function() return EntityWalkState(entity, gStateMachine.current.place) end,
+                ['idle'] = function() return EntityIdleState(entity, gStateMachine.current.place) end
             }
 
             entity:changeState('walk')
@@ -98,6 +85,8 @@ function World:generateTiles(width, height)
     local regionHeight = height / 2
 
     local bufferTileset = {}
+
+    
 
     for x = 1, width do
         self.tiles[x] = {}
@@ -191,6 +180,62 @@ end
 -- end
 
 function World:generateObjects()
+    local door = GameObject(
+        GAME_OBJECT_DEFS['door'],
+        math.floor(self.width / 5), 0
+    )
+    --math.random( math.floor(self.width), self.width * TILE_SIZE )
+
+    door.onCollide = function()
+        if self.player:collides(door) then
+            -- Timer.tween(1, {
+            --     [gStateMachine.current] = {transistionAlpha = 0}
+            -- }):finish(function()
+            --     Timer.tween(1, {
+            --         [gStateMachine.current] = {transistionAlpha = 1}
+            --     }):finish(function()
+            --         self.player.x = VIRTUAL_WIDTH / 2 - 8
+            --         self.player.y = VIRTUAL_HEIGHT / 2 - 11
+            --         gStateMachine.current.location = LOCATION_DEFS.places[2]
+            --         gStateMachine.current.place = Dungeon(self.player)
+            --     end)
+            -- end)
+            self.player.x = VIRTUAL_WIDTH / 2 - 8
+            self.player.y = VIRTUAL_HEIGHT / 2 - 11
+            gStateMachine.current.location = LOCATION_DEFS.places[2]
+            gStateMachine.current.place = Dungeon(self.player)
+        end
+    end
+
+    table.insert(self.objects, door)
+
+    local switch = GameObject(
+        GAME_OBJECT_DEFS['switch'],
+        math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
+                    VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
+        math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
+                    VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
+    )
+
+    -- define a function for the switch that will open all doors in the room
+    switch.onCollide = function()
+        if switch.state == 'unpressed' then
+            switch.state = 'pressed'
+            
+            for k, object in pairs(self.objects) do
+                if object.type == 'door' then
+                    object.state = 'opened'
+                end
+            end
+
+            gSounds['door']:play()
+        end
+    end
+
+    -- add to list of objects in scene (only one switch for now)
+    table.insert(self.objects, switch)
+
+
     local amount = math.random(math.floor(self.width / 3), math.floor((self.width * self.height) / (TILE_SIZE * 3)))
     local types = {'mushrooms', 'bushes'}
 
@@ -227,6 +272,9 @@ function World:generateObjects()
 end
 
 function World:update(dt)
+    local regionWidth = (self.width * TILE_SIZE) / 3
+    local regionHeight = (self.height * TILE_SIZE) / 2
+
     if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
 
     self.player:update(dt)
@@ -239,6 +287,45 @@ function World:update(dt)
 
     for i = #self.entities, 1, -1 do
         local entity = self.entities[i]
+
+        local regionNumber = calculateRegionNumber(entity.bufferX, entity.bufferY, regionWidth, regionHeight)
+
+        -- -- Adjust entity's position if outside the region
+        -- if entity.x < (regionNumber - 1) % 3 * regionWidth then
+        --     entity.x = (regionNumber - 1) % 3 * regionWidth
+        -- elseif entity.x >= regionNumber % 3 * regionWidth then
+        --     entity.x = regionNumber % 3 * regionWidth - 1
+        -- end
+
+        -- if entity.y < math.floor((regionNumber - 1) / 3) * regionHeight then
+        --     entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
+        -- elseif entity.y >= math.floor(regionNumber / 3) * regionHeight then
+        --     entity.y = math.floor(regionNumber / 3) * regionHeight - 1
+        -- end
+
+        -- if entity.direction == 'left' then
+            
+        --     if entity.x <= (regionNumber - 1) % 3 * regionWidth then 
+        --         entity.x = (regionNumber - 1) % 3 * regionWidth
+        --     end
+        -- elseif entity.direction == 'right' then
+    
+        --     if entity.x + entity.width >= regionNumber % 3 * regionWidth then
+        --         entity.x = regionNumber % 3 * regionWidth - entity.width
+                
+        --     end
+        -- elseif entity.direction == 'up' then
+    
+        --     if entity.y <= math.floor((regionNumber - 1) / 3) * regionHeight then 
+        --         entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
+                
+        --     end
+        -- elseif entity.direction == 'down' then
+    
+        --     if entity.y + entity.height >= math.floor(regionNumber / 3) * regionHeight then
+        --         entity.y = math.floor(regionNumber / 3) * regionHeight- entity.height 
+        --     end
+        -- end
 
         -- remove entity from the table if health is <= 0
         if entity.health <= 0 then

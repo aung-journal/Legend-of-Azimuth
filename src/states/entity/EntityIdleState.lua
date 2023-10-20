@@ -8,8 +8,10 @@
 
 EntityIdleState = Class{__includes = BaseState}
 
-function EntityIdleState:init(entity)
+function EntityIdleState:init(entity, place)
     self.entity = entity
+
+    self.place = place
 
     self.entity:changeAnimation('idle-' .. self.entity.direction)
 

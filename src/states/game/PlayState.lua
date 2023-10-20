@@ -12,6 +12,8 @@ function PlayState:init()
     self.camX = 0
     self.camY = 0
 
+    self.transistionAlpha = 1
+
     self.player = Player {
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
@@ -29,7 +31,9 @@ function PlayState:init()
         offsetY = 5
     }
 
+    self.currentRoom = Room(self.player)
     self.place = World(self.player, WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT)
+    self.location = LOCATION_DEFS.places[1]
     
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player, self.place) end,
@@ -45,12 +49,15 @@ function PlayState:update(dt)
     end
 
     self.place:update(dt)
-    self:updateCamera()
+    if not self.place.currentRoom then
+        self:updateCamera()
+    end
 end
 
 function PlayState:render()
     -- render place and all entities separate from hearts GUI
     love.graphics.push()
+    love.graphics.setColor(1,1,1,self.transistionAlpha)
     love.graphics.translate(-math.floor(self.camX), -math.floor(self.camY))
     self.place:render()
     love.graphics.pop()

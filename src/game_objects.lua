@@ -27,7 +27,6 @@ GAME_OBJECT_DEFS = {
     ['mushrooms'] = {
         type = 'mushroom',
         texture = 'mushrooms',
-        frames = MUSHROOM_IDS,
         frame = MUSHROOM_IDS[1],
         width = 16,
         height = 16,
@@ -42,7 +41,6 @@ GAME_OBJECT_DEFS = {
     ['bushes'] = {
         type = 'bush',
         texture = 'bushes',
-        frames = BUSH_IDS,
         frame = BUSH_IDS[1],
         width = 16,
         height = 16,
@@ -51,6 +49,23 @@ GAME_OBJECT_DEFS = {
         states = {
             ['passed'] = {
                 frame = BUSH_IDS[1]
+            }
+        }
+    },
+    ['door'] = {
+        type = 'door',
+        texture = 'tiles',
+        frame = TILE_CAVES[1],
+        width = 32,
+        height = 16,
+        solid = false,
+        defaultState = 'closed',
+        states = {
+            ['closed'] = {
+                frame = TILE_CAVES[1]
+            },
+            ['opened'] = {
+                frame = TILE_CAVES[2]
             }
         }
     }

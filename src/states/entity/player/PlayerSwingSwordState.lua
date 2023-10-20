@@ -62,10 +62,19 @@ end
 function PlayerSwingSwordState:update(dt)
     
     -- check if hitbox collides with any entities in the scene
-    for k, entity in pairs(self.place.entities) do
-        if entity:collides(self.swordHitbox) then
-            entity:damage(1)
-            gSounds['hit-enemy']:play()
+    if gStateMachine.current.location == LOCATION_DEFS.places[1] then
+        for k, entity in pairs(self.place.entities) do
+            if entity:collides(self.swordHitbox) then
+                entity:damage(1)
+                gSounds['hit-enemy']:play()
+            end
+        end
+    else
+        for k, entity in pairs(self.place.currentRoom.entities) do
+            if entity:collides(self.swordHitbox) then
+                entity:damage(1)
+                gSounds['hit-enemy']:play()
+            end
         end
     end
 

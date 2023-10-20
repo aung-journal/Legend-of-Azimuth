@@ -46,6 +46,8 @@ TILE_BOTTOM_WALLS = {79, 80, 81}
 TILE_LEFT_WALLS = {77, 96, 115}
 TILE_RIGHT_WALLS = {78, 97, 116}
 
+TILE_CAVES = {208, 207}
+
 --world
 --number of tiles in each tile set
 WORLD_TILE_SET_WIDTH = 5
