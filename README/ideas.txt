@@ -1,0 +1,147 @@
+    Plate Armor: Heavy, full-body armor made of metal plates, providing excellent protection.
+    Chainmail Armor: A flexible armor made of interlocking metal rings, offering good protection and mobility.
+    Leather Armor: Lightweight and flexible armor made of leather, suitable for agile characters.
+    Scale Armor: Armor made of small, overlapping metal plates, providing a balance of protection and mobility.
+    Breastplate: A torso armor covering the chest, often made of metal or reinforced leather.
+    Helmet: A protective headgear that guards the head from attacks.
+    Shield: A defensive item held in one hand to block attacks.
+    Gauntlets: Armored gloves or mittens to protect the hands.
+    Greaves: Leg armor that shields the shins and calves.
+    Bracers: Forearm protection, usually worn as part of a set with gauntlets.
+    Cuirass: A breastplate and backplate combination.
+    Full Helm: A complete head-covering helmet.
+    Spaulders: Shoulder armor to protect against shoulder strikes.
+    Sabatons: Foot armor to protect the feet and toes.
+    Gambeson: Padded armor worn beneath other armor for comfort and protection.
+    Chain Coif: A chainmail hood that protects the head and neck.
+    Kite Shield: A large, kite-shaped shield for maximum coverage.
+    Tower Shield: An enormous, tower-shaped shield providing extensive protection.
+    
+    Possible types of armors to put on
+    
+    Here's a list of ten different types of metals, each usable for ten levels in a game or progression system:
+
+1. **Copper (Levels 1-10)**: Copper is readily available and easy to work with, making it suitable for low-level crafting and equipment.
+
+2. **Iron (Levels 11-20)**: Iron offers increased durability and strength compared to copper, making it a staple for crafting basic weapons and armor in the mid-level range.
+
+3. **Bronze (Levels 21-30)**: A combination of copper and tin, bronze is stronger and more versatile, making it ideal for crafting a variety of gear for adventurers.
+
+4. **Steel (Levels 31-40)**: Steel is known for its exceptional strength and is the choice for crafting powerful weapons and armor for seasoned warriors.
+
+5. **Mithril (Levels 41-50)**: Mithril is a lightweight yet durable metal, allowing for agile armor and sharp weapons for adventurers in the upper levels.
+
+6. **Adamantium (Levels 51-60)**: Adamantium is incredibly tough, enabling the creation of legendary gear for those who have reached high levels.
+
+7. **Orichalcum (Levels 61-70)**: Orichalcum is a mystical metal associated with powerful enchantments, suitable for crafting magical gear.
+
+8. **Titanium (Levels 71-80)**: Titanium is renowned for its resistance to corrosion and extreme strength, making it a choice for late-game equipment.
+
+9. **Platinum (Levels 81-90)**: Platinum is a rare and precious metal that provides exceptional value and defense for elite adventurers.
+
+10. **Celestium (Levels 91-100)**: Celestium is a mythical metal infused with magical properties, creating the most powerful and legendary items for end-game characters
+
+Crafting recipes for plate armor using each of the metals:
+
+**Copper Plate Armor (Levels 1-10):**
+- Materials: Copper Ingots
+- Recipe: Combine multiple Copper Ingots at a forge.
+- Description: Basic and lightweight plate armor suitable for novice adventurers.
+
+**Iron Plate Armor (Levels 11-20):**
+- Materials: Iron Ingots
+- Recipe: Craft using Iron Ingots and a blacksmith's hammer at a forge.
+- Description: Sturdy plate armor providing solid protection for mid-level adventurers.
+
+**Bronze Plate Armor (Levels 21-30):**
+- Materials: Bronze Ingots
+- Recipe: Forge Bronze Ingots at a blacksmith's forge.
+- Description: Versatile plate armor with a mix of copper and tin, perfect for adventurers in the early levels.
+
+**Steel Plate Armor (Levels 31-40):**
+- Materials: Steel Ingots
+- Recipe: Craft using Steel Ingots, an anvil, and a blacksmith's hammer.
+- Description: Strong and durable plate armor, favored by mid-level warriors.
+
+**Mithril Plate Armor (Levels 41-50):**
+- Materials: Mithril Ingots
+- Recipe: Create Mithril Ingots at a special forge.
+- Description: Lightweight yet highly protective plate armor designed for agile high-level adventurers.
+
+**Adamantium Plate Armor (Levels 51-60):**
+- Materials: Adamantium Ingots
+- Recipe: Forge Adamantium Ingots at an enchanted forge.
+- Description: Legendary plate armor made from unbreakable adamantium, perfect for late-game heroes.
+
+**Orichalcum Plate Armor (Levels 61-70):**
+- Materials: Orichalcum Ingots
+- Recipe: Craft with Orichalcum Ingots and magical enchantments at a mystical forge.
+- Description: Plate armor imbued with mystical properties, suitable for magic-wielding adventurers.
+
+**Titanium Plate Armor (Levels 71-80):**
+- Materials: Titanium Ingots
+- Recipe: Use Titanium Ingots and advanced smithing techniques at a specialized forge.
+- Description: Corrosion-resistant and exceptionally strong plate armor for high-level characters.
+
+**Platinum Plate Armor (Levels 81-90):**
+- Materials: Platinum Ingots
+- Recipe: Forge Platinum Ingots with rare gemstones and expert craftsmanship.
+- Description: Exquisite and valuable plate armor offering elite protection to experienced adventurers.
+
+**Celestium Plate Armor (Levels 91-100):**
+- Materials: Celestium Ingots
+- Recipe: Craft using Celestium Ingots infused with celestial magic at a unique celestial forge.
+- Description: Plate armor of mythical quality, granting unparalleled defense to end-game heroes.
+
+
+Certainly, here are crafting recipes to create ingots from each of the materials:
+
+1. **Copper Ingot:**
+   - Materials: Copper Ore
+   - Recipe: Smelt Copper Ore in a furnace or forge.
+   - Description: A basic metal ingot made by smelting copper ore. It's the first step in working with metals.
+
+2. **Iron Ingot:**
+   - Materials: Iron Ore
+   - Recipe: Smelt Iron Ore at a forge or furnace.
+   - Description: Iron ingots are produced by smelting iron ore. They're a fundamental component for crafting more durable equipment.
+
+3. **Bronze Ingot:**
+   - Materials: Copper Ingot, Tin Ingot
+   - Recipe: Combine one Copper Ingot and one Tin Ingot in a furnace.
+   - Description: A mixture of copper and tin, bronze ingots are stronger and more versatile for crafting.
+
+4. **Steel Ingot:**
+   - Materials: Iron Ingot, Carbon
+   - Recipe: Combine Iron Ingot and Carbon in a special forge.
+   - Description: Steel ingots are created by adding carbon to iron, resulting in a tougher and stronger metal.
+
+5. **Mithril Ingot:**
+   - Materials: Mithril Ore
+   - Recipe: Smelt Mithril Ore in a high-temperature furnace.
+   - Description: Mithril ingots are made by smelting mithril ore. The metal is known for its lightweight yet durable properties.
+
+6. **Adamantium Ingot:**
+   - Materials: Adamantium Ore
+   - Recipe: Forge Adamantium Ore using specialized techniques.
+   - Description: Adamantium ingots are exceptionally tough and require unique forging methods.
+
+7. **Orichalcum Ingot:**
+   - Materials: Orichalcum Ore, Enchanted Essence
+   - Recipe: Combine Orichalcum Ore with Enchanted Essence in a mystical forge.
+   - Description: Orichalcum ingots are associated with powerful enchantments and require magical crafting.
+
+8. **Titanium Ingot:**
+   - Materials: Titanium Ore, Heat Crystals
+   - Recipe: Smelt Titanium Ore with Heat Crystals in a high-heat forge.
+   - Description: Titanium ingots are created through high-temperature smelting, resulting in corrosion-resistant and strong metal.
+
+9. **Platinum Ingot:**
+   - Materials: Platinum Ore, Rare Gemstones
+   - Recipe: Refine Platinum Ore with rare gemstones and expert craftsmanship.
+   - Description: Platinum ingots are precious and provide outstanding protection for elite adventurers.
+
+10. **Celestium Ingot:**
+    - Materials: Celestial Essences, Stardust
+    - Recipe: Combine Celestial Essences and Stardust at a unique celestial forge.
+    - Description: Celestium ingots are mythical metal infused with celestial magic, reserved for crafting legendary items.

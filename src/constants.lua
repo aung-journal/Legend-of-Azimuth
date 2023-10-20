@@ -85,7 +85,13 @@ MUSHROOM_IDS = {
     1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 16, 17, 18, 21, 22, 23, 26, 27, 28, 31, 32, 33, 36, 37, 38, 41, 42, 43
 }
 
-
+--this is the actual name that I will call in my game
+-- Enchanted Forest Biome(5)
+-- Volcanic Caverns Biome(3)
+-- Frozen Tundra Biome(2)
+-- Astral Wastes Biome(1)
+-- Deep Abyss Biome(4)
+-- The Land of Isles Biome(6)
 
 --WORLD TILE ID WITH BIOME
 DESERT_BIOME_IDS = {1, 2, 7, 8, 13, 14, 19, 20, 25, 26}

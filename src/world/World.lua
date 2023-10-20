@@ -1,6 +1,9 @@
 World = Class{}
 
 function World:init(player, width, height)
+    self.camX = gStateMachine.current.camX
+    self.camY = gStateMachine.current.camY
+
     self.width = width
     self.height = height
 
