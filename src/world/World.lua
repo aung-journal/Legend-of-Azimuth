@@ -182,9 +182,9 @@ end
 function World:generateObjects()
     local door = GameObject(
         GAME_OBJECT_DEFS['door'],
-        math.floor(self.width / 5), 0
+        math.random( math.floor(self.width), self.width * TILE_SIZE ), 0
     )
-    --math.random( math.floor(self.width), self.width * TILE_SIZE )
+    --
 
     door.onCollide = function()
         if self.player:collides(door) then
@@ -211,10 +211,8 @@ function World:generateObjects()
 
     local switch = GameObject(
         GAME_OBJECT_DEFS['switch'],
-        math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
-                    VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
-        math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
-                    VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
+        math.random(self.width * TILE_SIZE),
+        math.random(self.height * TILE_SIZE)
     )
 
     -- define a function for the switch that will open all doors in the room

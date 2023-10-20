@@ -54,6 +54,17 @@ function table.concatenate(...)
     return concatenatedTable
 end
 
+--excluding a value from a table
+function table.exclude(table, keyToExclude)
+    local newTable = {}
+    for key, value in pairs(table) do
+        if key ~= keyToExclude then
+            newTable[key] = value
+        end
+    end
+    return newTable
+end
+
 --get a list of keys of a table
 function table.getKeys(tbl)
     local keys = {}

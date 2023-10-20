@@ -44,11 +44,14 @@ function StartState:update(dt)
     end
 
     if love.mouse.isDown(1) then
-        for i, option in ipairs(self.menu) do
+        for i, option in ipairs(table.exclude(self.menu, #self.menu)) do
             if self.currentMenuItem == i then
                 gStateMachine:change(option:lower())
                 gSounds['selection']:play()
             end
+        end
+        if self.currentMenuItem == #self.menu then
+            love.event.quit()
         end
     end
 end

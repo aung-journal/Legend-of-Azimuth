@@ -21,6 +21,8 @@ require 'src/Util'
 require 'src/Tile'
 -- require 'src/TileMap'
 -- require 'src/GameLevel'
+-- CONTROLS
+require 'src/Control'
 
 require 'src/world/Doorway'
 require 'src/world/Dungeon'
@@ -38,7 +40,9 @@ require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/game/BeginGameState'
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
--- require 'src/states/game/InstructionState'
+require 'src/states/game/InstructionState'
+require 'src/states/game/SettingState'
+require 'src/states/game/AchievementState'
 require 'src/states/game/GameOverState'
 
 require 'src/world/location_defs'
@@ -100,12 +104,6 @@ gObjectIDS = {
         range(22, 28),
         range(1, 7),
         range(1, 7)
-    },
-    ['cave'] = {
-        {
-            top = {126, 127},
-            bottom = {145, 146}
-        }
     }
 }
 
@@ -127,11 +125,13 @@ gFonts = {
     ['gothic-medium'] = love.graphics.newFont('fonts/GothicPixels.ttf', 16),
     ['gothic-large'] = love.graphics.newFont('fonts/GothicPixels.ttf', 32),
     ['zelda'] = love.graphics.newFont('fonts/zelda.otf', 64),
-    ['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 32)
+    ['zelda-medium'] = love.graphics.newFont('fonts/zelda.otf', 32),
+    ['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 16)
 }
 
 gSounds = {
     ['selection'] = love.audio.newSource('sounds/selection.wav', 'static'),
+    ['turn'] = love.audio.newSource('sounds/turn.mp3', 'static'),
 
     ['music'] = love.audio.newSource('sounds/music.mp3', 'static'),
     ['sword'] = love.audio.newSource('sounds/sword.wav', 'static'),
@@ -139,3 +139,19 @@ gSounds = {
     ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),
     ['door'] = love.audio.newSource('sounds/door.wav', 'static')
 }
+
+-- Create a table to store the pause state for each sound
+gSoundPaused = {}
+
+-- Initialize the pause state for each sound to false
+gSoundPaused['selection'] = false
+gSoundPaused['turn'] = false
+gSoundPaused['music'] = false
+gSoundPaused['sword'] = false
+gSoundPaused['hit-enemy'] = false
+gSoundPaused['hit-player'] = false
+gSoundPaused['door'] = false
+
+--other controls
+MUSIC = true
+Sound_effect = true
