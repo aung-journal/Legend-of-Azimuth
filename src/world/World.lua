@@ -67,6 +67,9 @@ function World:generateEntities()
             local randomTypeIndex = math.random(#typesInRegion)
             local type = typesInRegion[randomTypeIndex]
 
+            local lev = ENTITY_DEFS[type].levels
+            local nlev = lev[math.random(#lev)]
+
             local entity = Entity {
                 animations = ENTITY_DEFS[type].animations,
                 walkSpeed = ENTITY_DEFS[type].walkSpeed or 20,
@@ -74,7 +77,8 @@ function World:generateEntities()
                 y = y,
                 width = 16,
                 height = 16,
-                health = 1
+                level = nlev
+                --health = level
             }
 
             entity.stateMachine = StateMachine {
@@ -89,72 +93,27 @@ function World:generateEntities()
     end
 end
 
-function World:generateTiles(width, height)
-    local regionWidth = width / 3
-    local regionHeight = height / 2
-
-    local bufferTileset = {}
-
-    local camX = math.floor(self.camX / TILE_SIZE + 1)
-    local camY = math.floor(self.camY / TILE_SIZE + 1)
-    
-    local camWidth = math.floor(self.camWidth / TILE_SIZE)
-    local camHeight = math.floor(self.camHeight / TILE_SIZE)
-
-    -- Clear any existing tiles
-    self.tiles = {}
-
-    for x = camX, camX + camWidth do
-        self.tiles[x] = {}
-    end
-
-    for x = camX, camX + camWidth do
-        for y = camY, camY + camHeight + 1 do
-            if math.random(math.floor((width * height) / 3)) == 1 then
-                self.tileID = WORLD_TILE_ID_EMPTY
-            else
-                self.tileID = WORLD_TILE_ID_GROUND
-            end
-
-            -- Determine the region for the tile
-            local regionX = math.floor((x - 1) / regionWidth) + 1
-            local regionY = math.floor((y - 1) / regionHeight) + 1
-
-            -- Calculate the region number
-            local regionNumber = (regionY - 1) * 3 + regionX
-
-            self.BiomeID = BIOMES[regionNumber]
-            self.Biome = LOCATION_DEFS.biome[regionNumber]
-
-            -- Check if we haven't selected a tileset for this region yet
-            if not bufferTileset[regionNumber] then
-                bufferTileset[regionNumber] = self.BiomeID[math.random(1, #self.BiomeID)]
-            end
-
-            self.tileset = bufferTileset[regionNumber]
-
-            self.topper = math.random(math.floor((width * height) / 100)) == 1 and true or false
-
-            self.tiles[x][y] = Tile(x, y, self.tileID, self.tileset, self.topper, self.topperset, self.BiomeID, regionNumber, self.Biome)
-        end
-    end
-end
-
-
 -- function World:generateTiles(width, height)
 --     local regionWidth = width / 3
 --     local regionHeight = height / 2
 
 --     local bufferTileset = {}
 
+--     local camX = math.floor(self.camX / TILE_SIZE + 1)
+--     local camY = math.floor(self.camY / TILE_SIZE + 1)
     
+--     local camWidth = math.floor(self.camWidth / TILE_SIZE)
+--     local camHeight = math.floor(self.camHeight / TILE_SIZE)
 
---     for x = 1, width do
+--     -- Clear any existing tiles
+--     self.tiles = {}
+
+--     for x = camX, camX + camWidth do
 --         self.tiles[x] = {}
 --     end
-    
---     for x = 1, width do
---         for y = 1, height do
+
+--     for x = camX, camX + camWidth do
+--         for y = camY, camY + camHeight + 1 do
 --             if math.random(math.floor((width * height) / 3)) == 1 then
 --                 self.tileID = WORLD_TILE_ID_EMPTY
 --             else
@@ -169,7 +128,6 @@ end
 --             local regionNumber = (regionY - 1) * 3 + regionX
 
 --             self.BiomeID = BIOMES[regionNumber]
-
 --             self.Biome = LOCATION_DEFS.biome[regionNumber]
 
 --             -- Check if we haven't selected a tileset for this region yet
@@ -185,6 +143,52 @@ end
 --         end
 --     end
 -- end
+
+
+function World:generateTiles(width, height)
+    local regionWidth = width / 3
+    local regionHeight = height / 2
+
+    local bufferTileset = {}
+
+    
+
+    for x = 1, width do
+        self.tiles[x] = {}
+    end
+    
+    for x = 1, width do
+        for y = 1, height do
+            if math.random(math.floor((width * height) / 3)) == 1 then
+                self.tileID = WORLD_TILE_ID_EMPTY
+            else
+                self.tileID = WORLD_TILE_ID_GROUND
+            end
+
+            -- Determine the region for the tile
+            local regionX = math.floor((x - 1) / regionWidth) + 1
+            local regionY = math.floor((y - 1) / regionHeight) + 1
+
+            -- Calculate the region number
+            local regionNumber = (regionY - 1) * 3 + regionX
+
+            self.BiomeID = BIOMES[regionNumber]
+
+            self.Biome = LOCATION_DEFS.biome[regionNumber]
+
+            -- Check if we haven't selected a tileset for this region yet
+            if not bufferTileset[regionNumber] then
+                bufferTileset[regionNumber] = self.BiomeID[math.random(1, #self.BiomeID)]
+            end
+
+            self.tileset = bufferTileset[regionNumber]
+
+            self.topper = math.random(math.floor((width * height) / 100)) == 1 and true or false
+
+            self.tiles[x][y] = Tile(x, y, self.tileID, self.tileset, self.topper, self.topperset, self.BiomeID, regionNumber, self.Biome)
+        end
+    end
+end
 
 -- function World:generateObjects()
 --     -- local switch = GameObject(
@@ -356,7 +360,7 @@ function World:update(dt)
             -- remove entity from the table if health is <= 0
             if entity.health <= 0 then
                 entity.dead = true
-                table.remove(self.entities, k)
+                --table.remove(self.entities, k)
             elseif not entity.dead then
                 entity:processAI({room = self}, dt)
                 entity:update(dt)
@@ -368,9 +372,9 @@ function World:update(dt)
                 self.player:damage(1)
                 self.player:goInvulnerable(1.5)
 
-                if self.player.health == 0 then
-                    gStateMachine:change('game-over')
-                end
+                -- if self.player.health == 0 then
+                --     gStateMachine:change('game-over')
+                -- end
             end
         end
     end

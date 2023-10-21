@@ -30,7 +30,11 @@ function Entity:init(def)
 
     self.walkSpeed = def.walkSpeed
 
-    self.health = def.health
+    self.levels = def.levels or {1}
+    self.level = def.level or 1
+
+    -- self.health = def.health
+    self.health = def.health or self.level
 
     -- flags for flashing the entity when hit
     self.invulnerable = false
@@ -107,6 +111,8 @@ function Entity:processAI(params, dt)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
+
+    love.graphics.setFont(gFonts['arial-small'])
     
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then
@@ -115,7 +121,23 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     end
 
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
+    
+    -- Render the entity's sprite
     self.stateMachine:render()
-    love.graphics.setColor(1, 1, 1, 1)
+
+    -- Render additional information (type, health, level)
+    local info = string.format("Health: %d\nLevel: %d", self.health, self.level)
+    
+    local font = love.graphics.getFont()  -- You can set the font style here if needed
+    local textWidth = font:getWidth(info)
+    
+    -- Adjust the position for the text so it appears above the entity
+    local textX = self.x - textWidth / 2  -- Center the text horizontally
+    local textY = self.y - self.height - 10  -- Adjust the vertical position
+    
+    love.graphics.setColor(0,0,1,1)
+    love.graphics.print(info, textX, textY)
+    love.graphics.setColor(1,1,1,1)
+    
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
 end

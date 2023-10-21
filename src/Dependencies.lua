@@ -100,12 +100,12 @@ gObjectIDS = {
         {21, 22, 23}
     },
     ['bushes'] = {
-        range(8, 14),
-        range(29, 35),
-        range(15, 21),
-        range(22, 28),
-        range(1, 7),
-        range(1, 7)
+        table.range(8, 14),
+        table.range(29, 35),
+        table.range(15, 21),
+        table.range(22, 28),
+        table.range(1, 7),
+        table.range(1, 7)
     }
 }
 
@@ -128,7 +128,9 @@ gFonts = {
     ['gothic-large'] = love.graphics.newFont('fonts/GothicPixels.ttf', 32),
     ['zelda'] = love.graphics.newFont('fonts/zelda.otf', 64),
     ['zelda-medium'] = love.graphics.newFont('fonts/zelda.otf', 32),
-    ['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 16)
+    ['zelda-small'] = love.graphics.newFont('fonts/zelda.otf', 16),
+    --for simplicity
+    ['arial-small'] = love.graphics.newFont('fonts/Arial.ttf', 8)
 }
 
 gSounds = {

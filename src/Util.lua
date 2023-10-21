@@ -128,7 +128,7 @@ function table.getKeys(tbl)
 end
 
 --python like range function but indexed inclusive
-function range(start, stop, step)
+function table.range(start, stop, step)
     if not stop then
         stop = start
         start = 1

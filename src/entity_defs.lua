@@ -6,6 +6,8 @@
     cogden@cs50.harvard.edu
 ]]
 
+require 'src/Util'
+
 ENTITY_DEFS = {
     ['player'] = {
         walkSpeed = PLAYER_WALK_SPEED,
@@ -70,7 +72,8 @@ ENTITY_DEFS = {
                 looping = false,
                 texture = 'character-swing-sword'
             }
-        }
+        },
+        levels = {1}
     },
     ['skeleton'] = {
         texture = 'entities',
@@ -103,7 +106,8 @@ ENTITY_DEFS = {
             ['idle-up'] = {
                 frames = {47}
             }
-        }
+        },
+        levels = table.range(1, 10)
     },
     ['slime'] = {
         texture = 'entities',
@@ -136,7 +140,8 @@ ENTITY_DEFS = {
             ['idle-up'] = {
                 frames = {86}
             }
-        }
+        },
+        levels = table.range(11, 20)
     },
     ['bat'] = {
         texture = 'entities',
@@ -173,7 +178,8 @@ ENTITY_DEFS = {
                 frames = {88, 89, 90, 89},
                 interval = 0.2
             }
-        }
+        },
+        levels = table.range(21, 30)
     },
     ['ghost'] = {
         texture = 'entities',
@@ -206,7 +212,8 @@ ENTITY_DEFS = {
             ['idle-up'] = {
                 frames = {92}
             }
-        }
+        },
+        levels = table.range(31, 40)
     },
     ['spider'] = {
         texture = 'entities',
@@ -239,6 +246,7 @@ ENTITY_DEFS = {
             ['idle-up'] = {
                 frames = {95}
             }
-        }
+        },
+        levels = table.range(41, 50)
     }
 }
