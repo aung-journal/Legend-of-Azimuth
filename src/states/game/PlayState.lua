@@ -32,7 +32,7 @@ function PlayState:init()
     }
 
     self.currentRoom = Room(self.player)
-    self.place = World(self.player, WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT)
+    self.place = World(self.player, WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT, self.camX, self.camY)
     self.location = LOCATION_DEFS.places[1]
     
     self.player.stateMachine = StateMachine {
@@ -49,16 +49,12 @@ function PlayState:update(dt)
     end
 
     self.place:update(dt)
-    if not self.place.currentRoom then
-        self:updateCamera()
-    end
 end
 
 function PlayState:render()
     -- render place and all entities separate from hearts GUI
     love.graphics.push()
     love.graphics.setColor(1,1,1,self.transistionAlpha)
-    love.graphics.translate(-math.floor(self.camX), -math.floor(self.camY))
     self.place:render()
     love.graphics.pop()
 
@@ -80,12 +76,4 @@ function PlayState:render()
         
         healthLeft = healthLeft - 2
     end
-end
-
-function PlayState:updateCamera()
-    local targetX = self.player.x - VIRTUAL_WIDTH/2
-    local targetY = self.player.y - VIRTUAL_HEIGHT/2
-
-    self.camX = math.max(0, math.min(TILE_SIZE * self.place.width - VIRTUAL_WIDTH, targetX))
-    self.camY = math.max(0, math.min(TILE_SIZE * self.place.height - VIRTUAL_HEIGHT, targetY))
 end

@@ -6,6 +6,7 @@ Class = require 'lib/class'
 Event = require 'lib/knife.event'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
+serpent = require 'lib/serpent'
 
 require 'src/Animation'
 require 'src/constants'
@@ -38,6 +39,7 @@ require 'src/states/entity/player/PlayerSwingSwordState'
 require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/states/game/BeginGameState'
+require 'src/states/game/PauseState'
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
 require 'src/states/game/InstructionState'
@@ -151,6 +153,9 @@ gSoundPaused['sword'] = false
 gSoundPaused['hit-enemy'] = false
 gSoundPaused['hit-player'] = false
 gSoundPaused['door'] = false
+
+--path to map folder
+gMapPath = 'src/map/'
 
 --other controls
 MUSIC = true

@@ -1,8 +1,11 @@
 World = Class{}
 
-function World:init(player, width, height)
-    self.camX = gStateMachine.current.camX
-    self.camY = gStateMachine.current.camY
+function World:init(player, width, height, camX, camY)
+    self.camX = camX
+    self.camY = camY
+
+    self.camWidth = VIRTUAL_WIDTH
+    self.camHeight = VIRTUAL_HEIGHT
 
     self.width = width
     self.height = height
@@ -20,6 +23,9 @@ function World:init(player, width, height)
 
     self.tiles = {}
     self:generateTiles(width, height)
+    --saveArrayToProjectDirectory(self.tiles, 'tiles.lst')
+
+    print(love.filesystem.getSourceBaseDirectory())
     
     self.entities = {}
     self:generateEntities()
@@ -89,14 +95,21 @@ function World:generateTiles(width, height)
 
     local bufferTileset = {}
 
+    local camX = math.floor(self.camX / TILE_SIZE + 1)
+    local camY = math.floor(self.camY / TILE_SIZE + 1)
     
+    local camWidth = math.floor(self.camWidth / TILE_SIZE)
+    local camHeight = math.floor(self.camHeight / TILE_SIZE)
 
-    for x = 1, width do
+    -- Clear any existing tiles
+    self.tiles = {}
+
+    for x = camX, camX + camWidth do
         self.tiles[x] = {}
     end
-    
-    for x = 1, width do
-        for y = 1, height do
+
+    for x = camX, camX + camWidth do
+        for y = camY, camY + camHeight + 1 do
             if math.random(math.floor((width * height) / 3)) == 1 then
                 self.tileID = WORLD_TILE_ID_EMPTY
             else
@@ -111,7 +124,6 @@ function World:generateTiles(width, height)
             local regionNumber = (regionY - 1) * 3 + regionX
 
             self.BiomeID = BIOMES[regionNumber]
-
             self.Biome = LOCATION_DEFS.biome[regionNumber]
 
             -- Check if we haven't selected a tileset for this region yet
@@ -127,6 +139,52 @@ function World:generateTiles(width, height)
         end
     end
 end
+
+
+-- function World:generateTiles(width, height)
+--     local regionWidth = width / 3
+--     local regionHeight = height / 2
+
+--     local bufferTileset = {}
+
+    
+
+--     for x = 1, width do
+--         self.tiles[x] = {}
+--     end
+    
+--     for x = 1, width do
+--         for y = 1, height do
+--             if math.random(math.floor((width * height) / 3)) == 1 then
+--                 self.tileID = WORLD_TILE_ID_EMPTY
+--             else
+--                 self.tileID = WORLD_TILE_ID_GROUND
+--             end
+
+--             -- Determine the region for the tile
+--             local regionX = math.floor((x - 1) / regionWidth) + 1
+--             local regionY = math.floor((y - 1) / regionHeight) + 1
+
+--             -- Calculate the region number
+--             local regionNumber = (regionY - 1) * 3 + regionX
+
+--             self.BiomeID = BIOMES[regionNumber]
+
+--             self.Biome = LOCATION_DEFS.biome[regionNumber]
+
+--             -- Check if we haven't selected a tileset for this region yet
+--             if not bufferTileset[regionNumber] then
+--                 bufferTileset[regionNumber] = self.BiomeID[math.random(1, #self.BiomeID)]
+--             end
+
+--             self.tileset = bufferTileset[regionNumber]
+
+--             self.topper = math.random(math.floor((width * height) / 100)) == 1 and true or false
+
+--             self.tiles[x][y] = Tile(x, y, self.tileID, self.tileset, self.topper, self.topperset, self.BiomeID, regionNumber, self.Biome)
+--         end
+--     end
+-- end
 
 -- function World:generateObjects()
 --     -- local switch = GameObject(
@@ -184,13 +242,13 @@ end
 
 function World:generateObjects()
     local door = GameObject(
-        GAME_OBJECT_DEFS['door'],
-        math.random( math.floor(self.width), self.width * TILE_SIZE ), 0
+        GAME_OBJECT_DEFS['door'], 0, 0
+        -- math.random( math.floor(self.width), self.width * TILE_SIZE ), 0
     )
     --
 
     door.onCollide = function()
-        if self.player:collides(door) then
+        if self.player:collides(door) and self.player.direction == 'up' and door.state == 'opened' then
             -- Timer.tween(1, {
             --     [gStateMachine.current] = {transistionAlpha = 0}
             -- }):finish(function()
@@ -204,7 +262,7 @@ function World:generateObjects()
             --     end)
             -- end)
             self.player.x = VIRTUAL_WIDTH / 2 - 8
-            self.player.y = VIRTUAL_HEIGHT / 2 - 11
+            self.player.y = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - (2 * TILE_SIZE)
             gStateMachine.current.location = LOCATION_DEFS.places[2]
             gStateMachine.current.place = Dungeon(self.player)
         end
@@ -213,9 +271,9 @@ function World:generateObjects()
     table.insert(self.objects, door)
 
     local switch = GameObject(
-        GAME_OBJECT_DEFS['switch'],
-        math.random(self.width * TILE_SIZE),
-        math.random(self.height * TILE_SIZE)
+        GAME_OBJECT_DEFS['switch'], TILE_SIZE, TILE_SIZE
+        -- math.random(self.width * TILE_SIZE),
+        -- math.random(self.height * TILE_SIZE)
     )
 
     -- define a function for the switch that will open all doors in the room
@@ -280,6 +338,8 @@ function World:update(dt)
 
     self.player:update(dt)
 
+    self:updateCamera()
+
         
     -- don't update anything if we are sliding to another room (we have offsets)
     if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
@@ -291,89 +351,101 @@ function World:update(dt)
 
         local regionNumber = calculateRegionNumber(entity.bufferX, entity.bufferY, regionWidth, regionHeight)
 
-        -- -- Adjust entity's position if outside the region
-        -- if entity.x < (regionNumber - 1) % 3 * regionWidth then
-        --     entity.x = (regionNumber - 1) % 3 * regionWidth
-        -- elseif entity.x >= regionNumber % 3 * regionWidth then
-        --     entity.x = regionNumber % 3 * regionWidth - 1
-        -- end
+        if entity.x + entity.width >= self.camX and entity.x <= self.camX + self.camWidth
+            and entity.y + entity.height >= self.camY and entity.y <= self.camY + self.camHeight then
+            -- remove entity from the table if health is <= 0
+            if entity.health <= 0 then
+                entity.dead = true
+                table.remove(self.entities, k)
+            elseif not entity.dead then
+                entity:processAI({room = self}, dt)
+                entity:update(dt)
+            end
 
-        -- if entity.y < math.floor((regionNumber - 1) / 3) * regionHeight then
-        --     entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
-        -- elseif entity.y >= math.floor(regionNumber / 3) * regionHeight then
-        --     entity.y = math.floor(regionNumber / 3) * regionHeight - 1
-        -- end
+            -- collision between the player and entities in the room
+            if not entity.dead and self.player:collides(entity) and not self.player.invulnerable then
+                gSounds['hit-player']:play()
+                self.player:damage(1)
+                self.player:goInvulnerable(1.5)
 
-        -- if entity.direction == 'left' then
-            
-        --     if entity.x <= (regionNumber - 1) % 3 * regionWidth then 
-        --         entity.x = (regionNumber - 1) % 3 * regionWidth
-        --     end
-        -- elseif entity.direction == 'right' then
-    
-        --     if entity.x + entity.width >= regionNumber % 3 * regionWidth then
-        --         entity.x = regionNumber % 3 * regionWidth - entity.width
-                
-        --     end
-        -- elseif entity.direction == 'up' then
-    
-        --     if entity.y <= math.floor((regionNumber - 1) / 3) * regionHeight then 
-        --         entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
-                
-        --     end
-        -- elseif entity.direction == 'down' then
-    
-        --     if entity.y + entity.height >= math.floor(regionNumber / 3) * regionHeight then
-        --         entity.y = math.floor(regionNumber / 3) * regionHeight- entity.height 
-        --     end
-        -- end
-
-        -- remove entity from the table if health is <= 0
-        if entity.health <= 0 then
-            entity.dead = true
-        elseif not entity.dead then
-            entity:processAI({room = self}, dt)
-            entity:update(dt)
-        end
-
-        -- collision between the player and entities in the room
-        if not entity.dead and self.player:collides(entity) and not self.player.invulnerable then
-            gSounds['hit-player']:play()
-            self.player:damage(1)
-            self.player:goInvulnerable(1.5)
-
-            if self.player.health == 0 then
-                gStateMachine:change('game-over')
+                if self.player.health == 0 then
+                    gStateMachine:change('game-over')
+                end
             end
         end
     end
 
     for k, object in pairs(self.objects) do
-        object:update(dt)
-
-        -- trigger collision callback on object
-        if self.player:collides(object) then
-            object:onCollide()
+        if object.x + object.width >= self.camX and object.x <= self.camX + self.camWidth
+           and object.y + object.height >= self.camY and object.y <= self.camY + self.camHeight then
+            object:update(dt)
+    
+            -- trigger collision callback on object
+            if self.player:collides(object) then
+                object:onCollide()
+            end
         end
+        -- object:update(dt)
+    
+        -- -- trigger collision callback on object
+        -- if self.player:collides(object) then
+        --     object:onCollide()
+        -- end
     end
 end
 
 function World:render()
-    for x = 1, self.width do
-        for y = 1, self.height do
-            self.tiles[x][y]:render()
+    local camX = math.floor(self.camX)
+    local camY = math.floor(self.camY)
+    love.graphics.translate(-camX, -camY)
+    
+    local ax = math.floor(camX / TILE_SIZE + 1)
+    local ay = math.floor(camY / TILE_SIZE + 1)
+    
+    local bx = math.floor(self.camWidth / TILE_SIZE)
+    local by = math.floor(self.camHeight / TILE_SIZE)
+    
+    for x = ax, ax + bx do
+        for y = ay, ay + by + 1 do
+            if self.tiles[x] and self.tiles[x][y] then
+                self.tiles[x][y]:render()
+            end
         end
     end
+    
+    -- debug code
+    -- for y = 1, self.width do
+    --     for x = 1, self.height do
+    --         local tile = self.tiles[y][x]
+    --         tile:render()
+    --     end
+    -- end
 
     for k, object in pairs(self.objects) do
-        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        if object.x + object.width >= self.camX and object.x <= self.camX + self.camWidth
+           and object.y + object.height >= self.camY and object.y <= self.camY + self.camHeight then
+            object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+        end
+        --object:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
 
     for k, entity in pairs(self.entities) do
-        if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        if entity.x + entity.width >= self.camX and entity.x <= self.camX + self.camWidth
+           and entity.y + entity.height >= self.camY and entity.y <= self.camY + self.camHeight then
+            if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
+        end
+        --if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
     end
 
     if self.player then
         self.player:render()
     end
+end
+
+function World:updateCamera()
+    local targetX = self.player.x - VIRTUAL_WIDTH/2
+    local targetY = self.player.y - VIRTUAL_HEIGHT/2
+
+    self.camX = math.max(0, math.min(TILE_SIZE * self.width - VIRTUAL_WIDTH, targetX))
+    self.camY = math.max(0, math.min(TILE_SIZE * self.height - VIRTUAL_HEIGHT, targetY))
 end

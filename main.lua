@@ -1,10 +1,6 @@
---[[
-    GD50
-    Legend of Zelda
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-]]
+--I primarily uses this asset pack: https://craftpix.net/product/100-pixel-art-armor-icons/
+--I also use asset pack from GD50 src5 and src4
+--I also use audio from GD50 src5 and src4
 
 require 'src/Dependencies'
 
@@ -23,6 +19,7 @@ function love.load()
 
     gStateMachine = StateMachine {
         ['begin-game'] = function() return BeginGameState() end,
+        ['pause'] = function() return PauseState() end,
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
         ['instructions'] = function() return InstructionState() end,

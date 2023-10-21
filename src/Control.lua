@@ -34,4 +34,12 @@ function Control:update(dt)
             MUSIC = MUSIC == false and true or false
         end
     end
+
+    if gStateMachine:getCurrentStateName() ~= 'start' and gStateMachine:getCurrentStateName() ~= 'begin-game' then
+        if love.keyboard.wasPressed('p') then
+            gStateMachine:change('pause', {
+                state = gStateMachine:getCurrentStateName()
+            })
+        end
+    end
 end

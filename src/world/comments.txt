@@ -1,0 +1,36 @@
+        -- -- Adjust entity's position if outside the region
+        -- if entity.x < (regionNumber - 1) % 3 * regionWidth then
+        --     entity.x = (regionNumber - 1) % 3 * regionWidth
+        -- elseif entity.x >= regionNumber % 3 * regionWidth then
+        --     entity.x = regionNumber % 3 * regionWidth - 1
+        -- end
+
+        -- if entity.y < math.floor((regionNumber - 1) / 3) * regionHeight then
+        --     entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
+        -- elseif entity.y >= math.floor(regionNumber / 3) * regionHeight then
+        --     entity.y = math.floor(regionNumber / 3) * regionHeight - 1
+        -- end
+
+        -- if entity.direction == 'left' then
+            
+        --     if entity.x <= (regionNumber - 1) % 3 * regionWidth then 
+        --         entity.x = (regionNumber - 1) % 3 * regionWidth
+        --     end
+        -- elseif entity.direction == 'right' then
+    
+        --     if entity.x + entity.width >= regionNumber % 3 * regionWidth then
+        --         entity.x = regionNumber % 3 * regionWidth - entity.width
+                
+        --     end
+        -- elseif entity.direction == 'up' then
+    
+        --     if entity.y <= math.floor((regionNumber - 1) / 3) * regionHeight then 
+        --         entity.y = math.floor((regionNumber - 1) / 3) * regionHeight
+                
+        --     end
+        -- elseif entity.direction == 'down' then
+    
+        --     if entity.y + entity.height >= math.floor(regionNumber / 3) * regionHeight then
+        --         entity.y = math.floor(regionNumber / 3) * regionHeight- entity.height 
+        --     end
+        -- end
