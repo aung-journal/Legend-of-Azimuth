@@ -1,0 +1,24 @@
+Bronze Copper(Common) Iron Steel(Rare) Orichalcum Titanium Platinum(Epic) Mithril Verdantium(Mystical) Celestium(Legendary)
+Mithril is 8
+Adamantanium is 5
+
+Levels: Common, Rare, Epic, Mythical, Legendary
+
+Certainly, here are five different levels of metals, each ascending in rarity and power, with "Legendary" as the highest tier:
+
+1. **Common Metal:**
+   - Description: Common metals are everyday materials often used for basic tools and items. They are easy to find and work with, making them suitable for crafting simple and essential equipment.
+
+2. **Rare Metal:**
+   - Description: Rare metals are less common and often have unique properties or higher durability. They are prized for crafting more specialized and effective gear.
+
+3. **Epic Metal:**
+   - Description: Epic metals are exceedingly rare and can possess magical or exceptional qualities. They are coveted for creating powerful and extraordinary items, typically found in hidden or challenging locations.
+
+4. **Mythical Metal:**
+   - Description: Mythical metals are shrouded in legends and known for their mystical properties. They are extremely rare and can be used to craft artifacts and items of great significance, often linked to the lore of your game's world.
+
+5. **Legendary Metal:**
+   - Description: Legendary metals are the rarest and most powerful of all. They are the stuff of myths and are often associated with gods or otherworldly beings. Items forged from legendary metals are unparalleled in strength and magical properties, making them sought after by the mightiest of heroes.
+
+These tiers of metals can be used in various aspects of your game, such as crafting, item progression, and storytelling, to provide a sense of rarity and power as players advance through your game.

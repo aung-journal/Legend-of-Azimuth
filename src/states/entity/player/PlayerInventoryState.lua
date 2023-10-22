@@ -1,0 +1,1 @@
+PlayerInventoryState = Class{__includes = BaseState}

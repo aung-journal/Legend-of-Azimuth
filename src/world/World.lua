@@ -33,6 +33,9 @@ function World:init(player, width, height, camX, camY)
     self.objects = {}
     self:generateObjects()
 
+    --any items that has been dropped
+    self.items = {}
+
     self.player = player
 
     self.adjacentOffsetX = 0
@@ -360,6 +363,19 @@ function World:update(dt)
             -- remove entity from the table if health is <= 0
             if entity.health <= 0 then
                 entity.dead = true
+
+                for k, item in pairs(ITEM_DEFS) do
+                    if math.random(item.dropRate) == 1 then
+                        local item = Item {
+                            ITEM_DEFS[k],
+                            entity.x,
+                            entity.y,
+                            self.player
+                        }
+                        table.insert(self.items, item)
+                    end
+                end
+                
                 --table.remove(self.entities, k)
             elseif not entity.dead then
                 entity:processAI({room = self}, dt)
@@ -396,6 +412,8 @@ function World:update(dt)
         --     object:onCollide()
         -- end
     end
+
+    
 end
 
 function World:render()

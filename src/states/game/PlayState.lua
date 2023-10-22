@@ -30,7 +30,11 @@ function PlayState:init()
         level = ENTITY_DEFS['player'].levels[1],
 
         -- rendering and collision offset for spaced sprites
-        offsetY = 5
+        offsetY = 5,
+        isPlayer = true,
+
+        xScale = 1,
+        yScale = 1
     }
 
     self.currentRoom = Room(self.player)

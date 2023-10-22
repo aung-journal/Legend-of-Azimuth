@@ -29,6 +29,14 @@ require 'src/world/Doorway'
 require 'src/world/Dungeon'
 require 'src/world/Room'
 
+require 'src/world/location_defs'
+-- require 'src/world/WorldMaker'
+require 'src/world/World'
+
+--these are the components and items classes and definitions
+require 'src/component/Item'
+require 'src/component/item_defs'
+
 require 'src/states/BaseState'
 
 require 'src/states/entity/EntityIdleState'
@@ -37,6 +45,7 @@ require 'src/states/entity/EntityWalkState'
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerSwingSwordState'
 require 'src/states/entity/player/PlayerWalkState'
+require 'src/states/entity/player/PlayerInventoryState'
 
 require 'src/states/game/BeginGameState'
 require 'src/states/game/PauseState'
@@ -46,10 +55,6 @@ require 'src/states/game/InstructionState'
 require 'src/states/game/SettingState'
 require 'src/states/game/AchievementState'
 require 'src/states/game/GameOverState'
-
-require 'src/world/location_defs'
--- require 'src/world/WorldMaker'
-require 'src/world/World'
 
 gTextures = {
     ['logo'] = love.graphics.newImage('graphics/logo.jpeg'),
@@ -64,7 +69,11 @@ gTextures = {
     ['entities'] = love.graphics.newImage('graphics/entities.png'),
     ['mushrooms'] = love.graphics.newImage('graphics/mushrooms.png'),
     ['switches'] = love.graphics.newImage('graphics/switches.png'),
-    ['bushes'] = love.graphics.newImage('graphics/bushes_and_cacti.png')
+    ['bushes'] = love.graphics.newImage('graphics/bushes_and_cacti.png'),
+
+    --this is swords and other stuff used as Item Class
+    ['primary_weapons'] = love.graphics.newImage('graphics/primary_weapons.png'),
+    ['secondary_weapons'] = love.graphics.newImage('graphics/secondary_weapons.png')
 }
 
 
@@ -79,7 +88,11 @@ gFrames = {
     ['hearts'] = GenerateQuads(gTextures['hearts'], 16, 16),
     ['mushrooms'] = GenerateQuads(gTextures['mushrooms'], 16, 16),
     ['bushes'] = GenerateQuads(gTextures['bushes'], 16, 16),
-    ['switches'] = GenerateQuads(gTextures['switches'], 16, 18)
+    ['switches'] = GenerateQuads(gTextures['switches'], 16, 18),
+
+    --items
+    ['primary_weapons'] = GenerateQuads(gTextures['primary_weapons'], 32, 32),
+    ['secondary_weapons'] = GenerateQuads(gTextures['secondary_weapons'], 24, 28)
 }
 
 --these needed to be added after gFrames is initialized because they refer to gFrames from within
@@ -118,6 +131,36 @@ gEntityIDS = {
     {'spider'},
     {'spider'}
 }
+
+-- --primary weapons(types of weapons(at least deal melee damage))
+-- gPrimaryWeapons = {
+--     ['shovel'] = {specialType = 'digging'},
+--     ['axe'] = {specialType = 'felling'} -- felling is same as cutting trees down
+-- }
+
+
+-- --this is different metals and ordered from lowest level to highest level(10 levels)(from level 1 to 100 and step of 10)
+-- -- and non event or main ones are the first indexed in the arrays of this 2d array
+-- gMetalLevels = {
+--     {'bronze'},
+--     {'copper'},
+--     {'iron'},
+--     {'steel'},
+--     {'orichalcum'},
+--     {'titanium'},
+--     {'platinum'},
+--     {'mithril'},
+--     {'verdantium'},
+--     {'celestium'}
+-- }
+
+--these are in item_defs(the commented one)
+
+--currently saint is unavilable
+gItemTypes = {
+    level = {'common', 'rare', 'epic', 'mystical', 'legendary'} --'saint'
+}
+
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/font.ttf', 6),

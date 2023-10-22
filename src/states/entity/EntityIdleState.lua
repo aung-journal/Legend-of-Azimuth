@@ -39,7 +39,7 @@ end
 function EntityIdleState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY), 0, self.entity.xScale, self.entity.yScale)
     
     -- love.graphics.setColor(255, 0, 255, 255)
     -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)

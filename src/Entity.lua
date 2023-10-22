@@ -45,6 +45,10 @@ function Entity:init(def)
     self.flashTimer = 0
 
     self.dead = false
+    self.isPlayer = def.isPlayer or false
+    --this is for scalling entities
+    self.xScale = def.xScale or 1
+    self.yScale = def.yScale or 1
 end
 
 function Entity:createAnimations(animations)
@@ -135,7 +139,11 @@ function Entity:render(adjacentOffsetX, adjacentOffsetY)
     local textX = self.x - textWidth / 2  -- Center the text horizontally
     local textY = self.y - self.height - 10  -- Adjust the vertical position
     
-    love.graphics.setColor(0,0,1,1)
+    if self.isPlayer then
+        love.graphics.setColor(1,0,0,1)
+    else
+        love.graphics.setColor(0,0,1,1)
+    end
     love.graphics.print(info, textX, textY)
     love.graphics.setColor(1,1,1,1)
     

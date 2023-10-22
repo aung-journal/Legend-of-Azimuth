@@ -65,8 +65,9 @@ function PlayerSwingSwordState:update(dt)
     if gStateMachine.current.location == LOCATION_DEFS.places[1] then
         for k, entity in pairs(self.place.entities) do
             if entity:collides(self.swordHitbox) then
+                --0.1 means 1 damage as it updates 10 frames per second
                 entity:damage(1)
-                entity:goInvulnerable(1)
+                entity:goInvulnerable(0.1)
                 gSounds['hit-enemy']:play()
             end
         end
@@ -94,7 +95,7 @@ end
 function PlayerSwingSwordState:render()
     local anim = self.player.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
+        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY), 0, self.player.xScale, self.player.yScale)
 
     --
     -- debug for player and hurtbox collision rects VV

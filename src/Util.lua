@@ -153,6 +153,25 @@ function table.range(start, stop, step)
     return range
 end
 
+function table.findKeyByValue(tbl, value)
+    local mt = { __index = function(t, n)
+        assert(n > 0)
+        for k, v in pairs(t) do
+            n = n - 1
+            if n == 0 then
+                return v
+            end
+        end
+    end}
+
+    for k, v in pairs(tbl) do
+        if v == value then
+            return k -- Return the key when the value matches
+        end
+    end
+    return nil -- Return nil if the value is not found
+end
+
 --[[
     Divides quads we've generated via slicing our tile sheet into separate tile sets.
 ]]
