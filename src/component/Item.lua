@@ -7,10 +7,11 @@ function Item:init(def, x, y, player)
     self.type = def.type
     self.specialType = def.specialType or false
 
+    --'primary_weapons'
     self.texture = def.texture
     self.frame = def.frame or 1
     --this is just going to be only instantiating one thing in items_def for many item with same texture and type
-    self.frames = def.frames
+    self.frames = def.frames or false
     --this is for knowing part of that frame, rendering what(so something that also have the same drop rate)
     self.part = self.frames and self.frames[math.random(#self.frames)] or false
 

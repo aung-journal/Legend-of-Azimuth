@@ -364,15 +364,23 @@ function World:update(dt)
             if entity.health <= 0 then
                 entity.dead = true
 
-                for k, item in pairs(ITEM_DEFS) do
-                    if math.random(item.dropRate) == 1 then
+                for k, item_def in pairs(ITEM_DEFS) do
+                    if math.random(item_def.dropRate) == 1 then
                         local item = Item {
-                            ITEM_DEFS[k],
+                            item_def,
                             entity.x,
                             entity.y,
                             self.player
                         }
+                        item.x = entity.x
+                        item.y = entity.y
+                        item.width = item_def.width
+                        item.height = item_def.height
+                        item.type = item_def.type
+                        item.texture = item_def.texture
+                        item.specialType = item_def.specialType
                         table.insert(self.items, item)
+                        print("Found")
                     end
                 end
                 
@@ -413,7 +421,13 @@ function World:update(dt)
         -- end
     end
 
-    
+    -- for k, item in pairs(self.items) do
+    --     if self.player:collides(item) then
+    --         item:onCollide(self.player)
+    --         table.remove(self.items, item)
+    --         print_r(self.player.inventory)
+    --     end
+    -- end
 end
 
 function World:render()
@@ -434,6 +448,13 @@ function World:render()
             end
         end
     end
+
+    for k, item in pairs(self.items) do
+        print("Item attributes:")
+        print(item.type, item.texture, item.frame) -- Add all relevant attributes
+        item:render()
+    end
+    
     
     -- debug code
     -- for y = 1, self.width do
