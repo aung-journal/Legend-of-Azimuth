@@ -361,7 +361,7 @@ function World:update(dt)
         if entity.x + entity.width >= self.camX and entity.x <= self.camX + self.camWidth
             and entity.y + entity.height >= self.camY and entity.y <= self.camY + self.camHeight then
             -- remove entity from the table if health is <= 0
-            if entity.health <= 0 then
+            if entity.health <= 1 then
                 entity.dead = true
 
                 for k, item_def in pairs(ITEM_DEFS) do
@@ -431,18 +431,19 @@ function World:update(dt)
 
     local itemsToRemove = {} -- Create a table to store items to be removed
 
-    -- for k, item in pairs(self.items) do
-    --     if self.player:collides(item) then
-    --         table.insert(self.player.inventory, item) -- Add the item to the player's inventory
-    --         gSounds['pick-up']:play()
-    --         table.insert(itemsToRemove, k) -- Store the index of items to remove
-    --     end
-    -- end
+    for k, item in pairs(self.items) do
+        if self.player:collides(item) and love.mouse.wasPressed(1) then
+            table.insert(self.player.inventory, item) -- Add the item to the player's inventory
+            gSounds['pick-up']:play()
+            table.insert(itemsToRemove, k) -- Store the index of items to remove
+            print_r(self.player.inventory)
+        end
+    end
     
-    -- -- Remove items from the self.items table
-    -- for i = #itemsToRemove, 1, -1 do
-    --     table.remove(self.items, itemsToRemove[i])
-    -- end    
+    -- Remove items from the self.items table
+    for i = #itemsToRemove, 1, -1 do
+        table.remove(self.items, itemsToRemove[i])
+    end    
 end
 
 function World:render()

@@ -16,9 +16,12 @@ function PlayerIdleState:enter(params)
 end
 
 function PlayerIdleState:update(dt)
-    if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
-       love.keyboard.isDown('up') or love.keyboard.isDown('down') then
-        self.entity:changeState('walk')
+    local keys = {'w', 'a', 's', 'd', 'left', 'right', 'up', 'down'}
+
+    for k, key in pairs(keys) do
+        if love.keyboard.isDown(key) then
+            self.entity:changeState('walk')
+        end
     end
 
     if love.keyboard.wasPressed('space') then

@@ -33,10 +33,22 @@ function love.load()
     gSounds['music']:play()
 
     love.keyboard.keysPressed = {}
+    love.mouse.keysPressed = {}
+    love.mouse.keysReleased = {}
+
+    paused = false
 end
 
 function love.resize(w, h)
     push:resize(w, h)
+end
+
+function love.mousepressed(x, y, key)
+    love.mouse.keysPressed[key] = true
+end
+
+function love.mousereleased(x, y, key)
+    love.mouse.keysReleased[key] = true 
 end
 
 function love.keypressed(key)
@@ -47,12 +59,22 @@ function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key]
 end
 
-function love.update(dt)
-    Timer.update(dt)
-    Control:update(dt)
-    gStateMachine:update(dt)
+function love.mouse.wasPressed(x,y,key)
+    return love.mouse.keysPressed[key]
+end
 
-    love.keyboard.keysPressed = {}
+function love.mouse.wasReleased(key)
+    return love.mouse.keysReleased[key]
+end
+
+function love.update(dt)
+    if not paused then
+        Timer.update(dt)
+        Control:update(dt)
+        gStateMachine:update(dt)
+
+        love.keyboard.keysPressed = {}
+    end
 end
 
 function love.draw()

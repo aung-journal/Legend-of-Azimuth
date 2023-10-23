@@ -47,6 +47,10 @@ function PlayerSwingSwordState:init(player, place)
 
     -- sword-left, sword-up, etc
     self.player:changeAnimation('sword-' .. self.player.direction)
+
+    -- Add a timer for tracking time elapsed during the swing
+    self.swingTimer = 0
+    self.swingDuration = 1  -- Set the duration of one swing (in seconds)
 end
 
 function PlayerSwingSwordState:enter(params)
@@ -59,34 +63,45 @@ function PlayerSwingSwordState:enter(params)
     self.player.currentAnimation:refresh()
 end
 
+
 function PlayerSwingSwordState:update(dt)
-    
-    -- check if hitbox collides with any entities in the scene
+    -- Add a flag to track whether the sword has hit an entity during the current swing.
+    local swordHitEntity = false
+
+    -- Increment the swing timer
+    self.swingTimer = self.swingTimer + dt
+
+    -- Check if hitbox collides with any entities in the scene
     if gStateMachine.current.location == LOCATION_DEFS.places[1] then
         for k, entity in pairs(self.place.entities) do
             if entity:collides(self.swordHitbox) then
-                --0.1 means 1 damage as it updates 10 frames per second
-                entity:damage(self.player.currentAnimation.interval * 2)
-                entity:goInvulnerable(self.player.currentAnimation.interval * 2)
-                gSounds['hit-enemy']:play()
+                if not swordHitEntity and self.swingTimer < self.swingDuration then
+                    --note that because of ten collisions I did 0.1 for 1
+                    entity:damage(0.1)
+                    gSounds['hit-enemy']:play()
+                    swordHitEntity = true  -- Set the flag to true to indicate that a hit occurred.
+                end
             end
         end
     else
         for k, entity in pairs(self.place.currentRoom.entities) do
             if entity:collides(self.swordHitbox) then
-                entity:damage(1)
-                gSounds['hit-enemy']:play()
+                if not swordHitEntity and self.swingTimer < self.swingDuration then
+                    entity:damage(1)
+                    gSounds['hit-enemy']:play()
+                    swordHitEntity = true  -- Set the flag to true to indicate that a hit occurred.
+                end
             end
         end
     end
 
-    -- if we've fully elapsed through one cycle of animation, change back to idle state
+    -- If we've fully elapsed through one cycle of animation, change back to idle state.
     if self.player.currentAnimation.timesPlayed > 0 then
         self.player.currentAnimation.timesPlayed = 0
         self.player:changeState('idle')
     end
 
-    -- allow us to change into this state afresh if we swing within it, rapid swinging
+    -- Allow us to change into this state afresh if we swing within it, rapid swinging.
     if love.keyboard.wasPressed('space') then
         self.player:changeState('swing-sword')
     end
@@ -95,7 +110,7 @@ end
 function PlayerSwingSwordState:render()
     local anim = self.player.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY), 0, self.player.xScale, self.player.yScale)
+        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
 
     --
     -- debug for player and hurtbox collision rects VV
