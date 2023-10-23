@@ -66,8 +66,8 @@ function PlayerSwingSwordState:update(dt)
         for k, entity in pairs(self.place.entities) do
             if entity:collides(self.swordHitbox) then
                 --0.1 means 1 damage as it updates 10 frames per second
-                entity:damage(1)
-                entity:goInvulnerable(0.1)
+                entity:damage(self.player.currentAnimation.interval * 2)
+                entity:goInvulnerable(self.player.currentAnimation.interval * 2)
                 gSounds['hit-enemy']:play()
             end
         end

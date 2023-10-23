@@ -91,7 +91,7 @@ gFrames = {
     ['switches'] = GenerateQuads(gTextures['switches'], 16, 18),
 
     --items
-    ['primary_weapons'] = GenerateQuads(gTextures['primary_weapons'], 32, 32),
+    ['primary_weapons'] = GenerateQuads(gTextures['primary_weapons'], 16, 16),
     ['secondary_weapons'] = GenerateQuads(gTextures['secondary_weapons'], 24, 28)
 }
 
@@ -182,6 +182,7 @@ gSounds = {
 
     ['music'] = love.audio.newSource('sounds/music.mp3', 'static'),
     ['sword'] = love.audio.newSource('sounds/sword.wav', 'static'),
+    ['pick-up'] = love.audio.newSource('sounds/pickup.wav', 'static'),
     ['hit-enemy'] = love.audio.newSource('sounds/hit_enemy.wav', 'static'),
     ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),
     ['door'] = love.audio.newSource('sounds/door.wav', 'static')

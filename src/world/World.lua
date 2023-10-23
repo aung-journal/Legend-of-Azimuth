@@ -365,13 +365,17 @@ function World:update(dt)
                 entity.dead = true
 
                 for k, item_def in pairs(ITEM_DEFS) do
-                    if math.random(item_def.dropRate) == 1 then
-                        local item = Item {
+                    -- Generate a random number between 1 and the drop rate
+                    local randomNum = math.random(item_def.dropRate)
+                    
+                    -- If the random number is 1, drop the item and exit the loop
+                    if randomNum == 1 then
+                        local item = Item (
                             item_def,
                             entity.x,
                             entity.y,
                             self.player
-                        }
+                        )
                         item.x = entity.x
                         item.y = entity.y
                         item.width = item_def.width
@@ -380,9 +384,13 @@ function World:update(dt)
                         item.texture = item_def.texture
                         item.specialType = item_def.specialType
                         table.insert(self.items, item)
-                        print("Found")
+                        
+                        -- Exit the loop
+                        break
                     end
                 end
+                
+                table.remove(self.entities, i)
                 
                 --table.remove(self.entities, k)
             elseif not entity.dead then
@@ -421,13 +429,20 @@ function World:update(dt)
         -- end
     end
 
+    local itemsToRemove = {} -- Create a table to store items to be removed
+
     -- for k, item in pairs(self.items) do
     --     if self.player:collides(item) then
-    --         item:onCollide(self.player)
-    --         table.remove(self.items, item)
-    --         print_r(self.player.inventory)
+    --         table.insert(self.player.inventory, item) -- Add the item to the player's inventory
+    --         gSounds['pick-up']:play()
+    --         table.insert(itemsToRemove, k) -- Store the index of items to remove
     --     end
     -- end
+    
+    -- -- Remove items from the self.items table
+    -- for i = #itemsToRemove, 1, -1 do
+    --     table.remove(self.items, itemsToRemove[i])
+    -- end    
 end
 
 function World:render()
@@ -450,8 +465,8 @@ function World:render()
     end
 
     for k, item in pairs(self.items) do
-        print("Item attributes:")
-        print(item.type, item.texture, item.frame) -- Add all relevant attributes
+        -- print("Item attributes:")
+        -- print(item.type, item.texture, item.frame) -- Add all relevant attributes
         item:render()
     end
     

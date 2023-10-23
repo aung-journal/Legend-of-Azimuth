@@ -1,169 +1,169 @@
 ITEM_DEFS = {
-    ['bronze_shovel'] = {
+    ['bronze_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 1,
-        width = 32,
-        height = 32, dropRate = 5 ^ 1
+        width = 16,
+        height = 16, dropRate = 5 ^ 1
     },
-    ['copper_shovel'] = {
+    ['copper_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 2,
-        width = 32,
-        height = 32, dropRate = 5 ^ 2
+        width = 16,
+        height = 16, dropRate = 5 ^ 2
     },
-    ['iron_shovel'] = {
+    ['iron_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 3,
-        width = 32,
-        height = 32, dropRate = 5 ^ 3
+        width = 16,
+        height = 16, dropRate = 5 ^ 3
     },
-    ['steel_shovel'] = {
+    ['steel_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 4,
-        width = 32,
-        height = 32, dropRate = 5 ^ 4
+        width = 16,
+        height = 16, dropRate = 5 ^ 4
     },
-    ['orichalcum_shovel'] = {
+    ['orichalcum_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 5,
-        width = 32,
-        height = 32, dropRate = 5 ^ 5
+        width = 16,
+        height = 16, dropRate = 5 ^ 5
     },
-    ['titanium_shovel'] = {
+    ['titanium_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 6,
-        width = 32,
-        height = 32, dropRate = 5 ^ 6
+        width = 16,
+        height = 16, dropRate = 5 ^ 6
     },
-    ['platinum_shovel'] = {
+    ['platinum_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 7,
-        width = 32,
-        height = 32, dropRate = 5 ^ 7
+        width = 16,
+        height = 16, dropRate = 5 ^ 7
     },
-    ['mithril_shovel'] = {
+    ['mithril_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 8,
-        width = 32,
-        height = 32, dropRate = 5 ^ 8
+        width = 16,
+        height = 16, dropRate = 5 ^ 8
     },
-    ['verdantinum_shovel'] = {
+    ['verdantinum_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 9,
-        width = 32,
-        height = 32, dropRate = 5 ^ 9
+        width = 16,
+        height = 16, dropRate = 5 ^ 9
     },
-    ['celestium_shovel'] = {
+    ['celestium_sword'] = {
         type = 'weapon',
-        specialType = 'digging',
+        specialType = 'damage',
         texture = 'primary_weapons',
         frame = 10,
-        width = 32,
-        height = 32, dropRate = 5 ^ 10
+        width = 16,
+        height = 16, dropRate = 5 ^ 10
     },
     ['bronze_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 11,
-        width = 32,
-        height = 32, dropRate = 5 ^ 1
+        width = 16,
+        height = 16, dropRate = 5 ^ 1
     },
     ['copper_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 12,
-        width = 32,
-        height = 32, dropRate = 5 ^ 2
+        width = 16,
+        height = 16, dropRate = 5 ^ 2
     },
     ['iron_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 13,
-        width = 32,
-        height = 32, dropRate = 5 ^ 3
+        width = 16,
+        height = 16, dropRate = 5 ^ 3
     },
     ['steel_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 14,
-        width = 32,
-        height = 32, dropRate = 5 ^ 4
+        width = 16,
+        height = 16, dropRate = 5 ^ 4
     },
     ['orichalcum_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 15,
-        width = 32,
-        height = 32, dropRate = 5 ^ 5
+        width = 16,
+        height = 16, dropRate = 5 ^ 5
     },
     ['titanium_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 16,
-        width = 32,
-        height = 32, dropRate = 5 ^ 6
+        width = 16,
+        height = 16, dropRate = 5 ^ 6
     },
     ['platinum_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 17,
-        width = 32,
-        height = 32, dropRate = 5 ^ 7
+        width = 16,
+        height = 16, dropRate = 5 ^ 7
     },
     ['mithril_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 18,
-        width = 32,
-        height = 32, dropRate = 5 ^ 8
+        width = 16,
+        height = 16, dropRate = 5 ^ 8
     },
     ['verdantinum_axe'] = {
         type = 'weapon',
         specialType = 'feling',
         texture = 'primary_weapons',
         frame = 19,
-        width = 32,
-        height = 32, dropRate = 5 ^ 9
+        width = 16,
+        height = 16, dropRate = 5 ^ 9
     },
     ['celestium_axe'] = {
         type = 'weapon',
         specialType = 'felling',
         texture = 'primary_weapons',
         frame = 20,
-        width = 32,
-        height = 32, dropRate = 5 ^ 10
+        width = 16,
+        height = 16, dropRate = 5 ^ 10
     },
 }--this is the example version and I want to know if automated version below works
 
 -- --primary weapons(types of weapons(at least deal melee damage))
 -- gPrimaryWeapons = {
---     ['shovel'] = {specialType = 'digging', index = 1},
+--     ['sword'] = {specialType = 'damage', index = 1},
 --     ['axe'] = {specialType = 'felling', index = 2} -- felling is same as cutting trees down
 -- }
 
@@ -196,8 +196,8 @@ ITEM_DEFS = {
 --             specialType = weapon.specialType,
 --             texture = 'primary_weapons',
 --             frame = (weaponIndex - 1) * 10 + k,
---             width = 32,
---             height = 32, dropRate = 5 ^ 1
+--             width = 16,
+--             height = 16, dropRate = 5 ^ 1
 --             dropRate = 5 ^ weaponIndex
 --         }
 --     end
