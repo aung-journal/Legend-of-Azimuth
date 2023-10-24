@@ -1,3 +1,157 @@
+--node path for potential creation of AIs
+-- Create a function to calculate the path using A*
+function calculatePath(start, goal)
+    local openList = {}  -- List of nodes to be evaluated
+    local closedList = {}  -- List of nodes already evaluated
+    local cameFrom = {}  -- Keep track of the path
+
+    -- Create a node for the starting position
+    local startNode = {
+        position = start,
+        g = 0,  -- Cost from the start to this node (initially 0)
+        h = heuristic(start, goal),  -- Heuristic cost from this node to the goal
+    }
+    startNode.f = startNode.g + startNode.h  -- Total cost
+
+    table.insert(openList, startNode)
+
+    while #openList > 0 do
+        -- Find the node with the lowest f in the openList
+        local currentNode = findLowestF(openList)
+
+        -- If the current node is the goal, reconstruct the path and return it
+        if currentNode.position == goal then
+            return reconstructPath(cameFrom, currentNode)
+        end
+
+        -- Move the current node from openList to closedList
+        table.remove(openList, findNodeIndex(openList, currentNode))
+        table.insert(closedList, currentNode)
+
+        -- Generate neighbor nodes and process them
+        local neighbors = generateNeighbors(currentNode, goal)
+        for _, neighbor in pairs(neighbors) do
+            -- Skip nodes in closedList
+            if not isInList(closedList, neighbor) then
+                local tentativeG = currentNode.g + distance(currentNode.position, neighbor.position)
+
+                -- If neighbor not in openList or new path is shorter
+                local inOpenList = isInList(openList, neighbor)
+                if not inOpenList or tentativeG < neighbor.g then
+                    neighbor.cameFrom = currentNode
+                    neighbor.g = tentativeG
+                    neighbor.h = heuristic(neighbor.position, goal)
+                    neighbor.f = neighbor.g + neighbor.h
+                    if not inOpenList then
+                        table.insert(openList, neighbor)
+                    end
+                end
+            end
+        end
+    end
+
+    -- If no path found, return nil
+    return nil
+end
+
+-- Generate neighboring nodes for a given node
+function generateNeighbors(node, goal)
+    local neighbors = {}
+    local x, y = node.position.x, node.position.y
+
+    -- Assuming your game world is grid-based, and you can move in 8 directions (up, down, left, right, and diagonals)
+    local directions = {
+        {x = x - 1, y = y - 1}, -- Top-left
+        {x = x, y = y - 1},     -- Top
+        {x = x + 1, y = y - 1}, -- Top-right
+        {x = x - 1, y = y},     -- Left
+        {x = x + 1, y = y},     -- Right
+        {x = x - 1, y = y + 1}, -- Bottom-left
+        {x = x, y = y + 1},     -- Bottom
+        {x = x + 1, y = y + 1}  -- Bottom-right
+    }
+
+    for _, dir in pairs(directions) do
+        -- Ensure the neighbor is within the game world boundaries
+        if isWithinBounds(dir.x, dir.y) then
+            local neighbor = {
+                position = {x = dir.x, y = dir.y},
+                cameFrom = nil,  -- Initialize as nil
+                g = 0,           -- Initialize as 0
+                h = heuristic({x = dir.x, y = dir.y}, goal),  -- Calculate heuristic
+                f = 0            -- Initialize as 0
+            }
+            table.insert(neighbors, neighbor)
+        end
+    end
+
+    return neighbors
+end
+
+-- Calculate the Euclidean distance between two points
+function distance(point1, point2)
+    local dx, dy = point2.x - point1.x, point2.y - point1.y
+    return math.sqrt(dx * dx + dy * dy)
+end
+
+-- Check if a point is within the game world boundaries (you should implement this function)
+function isWithinBounds(x, y)
+    -- Implement your game world boundaries check here
+    -- Return true if (x, y) is within the allowed boundaries, otherwise return false
+    -- For example, you might compare x and y with the size of your game world
+end
+
+-- Define the heuristic function (e.g., Euclidean distance)
+function heuristic(a, b)
+    local dx, dy = b.x - a.x, b.y - a.y
+    return math.sqrt(dx * dx + dy * dy)
+end
+
+-- Implement other helper functions like findLowestF, findNodeIndex, generateNeighbors, and reconstructPath
+
+-- Check if a node is in a list
+function isInList(list, node)
+    for _, n in pairs(list) do
+        if n.position == node.position then
+            return true
+        end
+    end
+    return false
+end
+
+-- Find the node with the lowest f in a list
+function findLowestF(list)
+    local lowestF = math.huge
+    local lowestNode = nil
+    for _, node in pairs(list) do
+        if node.f < lowestF then
+            lowestF = node.f
+            lowestNode = node
+        end
+    end
+    return lowestNode
+end
+
+-- Find the index of a node in a list
+function findNodeIndex(list, node)
+    for i, n in pairs(list) do
+        if n.position == node.position then
+            return i
+        end
+    end
+    return nil
+end
+
+-- Reconstruct the path once the goal is reached
+function reconstructPath(cameFrom, current)
+    local path = {}
+    while current do
+        table.insert(path, current.position)
+        current = current.cameFrom
+    end
+    return path
+end    
+
 --file loading and saving functions
 
 -- Function to save an array to an LST file in the project directory

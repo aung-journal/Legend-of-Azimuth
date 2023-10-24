@@ -248,34 +248,32 @@ end
 -- end
 
 function World:generateObjects()
-    local door = GameObject(
-        GAME_OBJECT_DEFS['door'], 0, 0
-        -- math.random( math.floor(self.width), self.width * TILE_SIZE ), 0
-    )
-    --
+    for i = 1, 10 do
+        local door = GameObject(
+            GAME_OBJECT_DEFS['door'], i * 2, 0
+            -- math.random( math.floor(self.width), self.width * TILE_SIZE ), 0
+        )
+        --
 
-    door.onCollide = function()
-        if self.player:collides(door) and self.player.direction == 'up' and door.state == 'opened' then
-            -- Timer.tween(1, {
-            --     [gStateMachine.current] = {transistionAlpha = 0}
-            -- }):finish(function()
-            --     Timer.tween(1, {
-            --         [gStateMachine.current] = {transistionAlpha = 1}
-            --     }):finish(function()
-            --         self.player.x = VIRTUAL_WIDTH / 2 - 8
-            --         self.player.y = VIRTUAL_HEIGHT / 2 - 11
-            --         gStateMachine.current.location = LOCATION_DEFS.places[2]
-            --         gStateMachine.current.place = Dungeon(self.player)
-            --     end)
-            -- end)
-            self.player.x = VIRTUAL_WIDTH / 2 - 8
-            self.player.y = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - (2 * TILE_SIZE)
-            gStateMachine.current.location = LOCATION_DEFS.places[2]
-            gStateMachine.current.place = Dungeon(self.player)
+        door.onCollide = function()
+            if self.player:collides(door) and self.player.direction == 'up' and door.state == 'opened' then
+                -- Timer.tween(0.5, {
+                --     [gStateMachine.current] = {transistionAlpha = 0}
+                -- }):finish(function()
+                --         self.player.x = VIRTUAL_WIDTH / 2 - 8
+                --         self.player.y = VIRTUAL_HEIGHT / 2 - 11
+                --         gStateMachine.current.location = LOCATION_DEFS.places[2]
+                --         gStateMachine.current.place = Dungeon(self.player)
+                -- end)
+                self.player.x = VIRTUAL_WIDTH / 2 - 8
+                self.player.y = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - (2 * TILE_SIZE)
+                gStateMachine.current.location = LOCATION_DEFS.places[2]
+                gStateMachine.current.place = Dungeon(self.player)
+            end
         end
-    end
 
-    table.insert(self.objects, door)
+        table.insert(self.objects, door)
+    end
 
     local switch = GameObject(
         GAME_OBJECT_DEFS['switch'], TILE_SIZE, TILE_SIZE
@@ -432,7 +430,7 @@ function World:update(dt)
     local itemsToRemove = {} -- Create a table to store items to be removed
 
     for k, item in pairs(self.items) do
-        if self.player:collides(item) and love.mouse.wasPressed(1) then
+        if self.player:collides(item) then
             table.insert(self.player.inventory, item) -- Add the item to the player's inventory
             gSounds['pick-up']:play()
             table.insert(itemsToRemove, k) -- Store the index of items to remove

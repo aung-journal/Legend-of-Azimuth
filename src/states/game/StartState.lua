@@ -1,5 +1,7 @@
 StartState = Class{__includes = BaseState}
 
+local selected = false
+
 function StartState:init()
     self.menu = {
         "Play",
@@ -10,7 +12,7 @@ function StartState:init()
     }
 
     self.currentMenuItem = 1
-    
+    self.currentMenuKeyItem = 1
 end
 
 function StartState:update(dt)
@@ -18,13 +20,13 @@ function StartState:update(dt)
         love.event.quit()
     end
 
-    -- if love.keyboard.wasPressed('down') then
-    --     self.currentMenuItem = math.min(#self.menu, self.currentMenuItem + 1)
-    --     gSounds['selection']:play()
-    -- elseif love.keyboard.wasPressed('up') then
-    --     self.currentMenuItem = math.max(1, self.currentMenuItem - 1)
-    --     gSounds['selection']:play()
-    -- end
+    if love.keyboard.wasPressed('down') then
+        self.currentMenuKeyItem = math.min(#self.menu, self.currentMenuKeyItem + 1)
+        gSounds['selection']:play()
+    elseif love.keyboard.wasPressed('up') then
+        self.currentMenuKeyItem = math.max(1, self.currentMenuKeyItem - 1)
+        gSounds['selection']:play()
+    end
 
     for i, option in ipairs(self.menu) do
         local optionX = VIRTUAL_WIDTH / 2 - gFonts['instructions']:getWidth(option) / 2
@@ -51,6 +53,14 @@ function StartState:update(dt)
             end
         end
         if self.currentMenuItem == #self.menu then
+            love.event.quit()
+        end
+    end
+
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        if self.currentMenuKeyItem ~= #self.menu then
+            gStateMachine:change(self.menu[self.currentMenuKeyItem]:lower())
+        else
             love.event.quit()
         end
     end
@@ -82,7 +92,7 @@ function StartState:render()
         self:drawTextShadow(option, 54 + (i - 1) * 28)
 
         -- set color based on current menu item
-        if self.currentMenuItem == i then
+        if self.currentMenuItem == i or self.currentMenuKeyItem == i then
             love.graphics.setColor(99/255, 155/255, 1, 1)
         else
             love.graphics.setColor(1, 1, 1, 1)
