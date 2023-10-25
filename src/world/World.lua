@@ -22,7 +22,7 @@ function World:init(player, width, height, camX, camY)
 
     self.tileID = WORLD_TILE_ID_GROUND
     
-    self.topperset = PLAIN_TOPPER_BIOME_IDS[math.random(#PLAIN_TOPPER_BIOME_IDS)]
+    self.topperset = DESERT_TOPPER_BIOME_IDS[math.random(#DESERT_TOPPER_BIOME_IDS)]
 
     self.tiles = {}
     self:generateTiles(width, height)
@@ -45,7 +45,7 @@ function World:init(player, width, height, camX, camY)
     self.adjacentOffsetY = 0
 
     self:save()
-    --self:load()
+    self:load()
 end
 
 local function calculateRegionNumber(x, y, regionWidth, regionHeight)
@@ -515,7 +515,15 @@ function World:updateCamera()
     self.camY = math.max(0, math.min(TILE_SIZE * self.height - VIRTUAL_HEIGHT, targetY))
 end
 
+-- Define a callback function for handling exceptions
+local function handleException(value)
+    -- You can customize how to handle the exception value here
+    -- For example, you can convert it to a string or handle it in a specific way
+    return filterFunctions(value)
+end
+
 function World:save()
+    -- Create a copy of the items, entities, objects, tiles tables without functions
     local saveData = {
         items = self.items,
         entities = self.entities,
@@ -524,7 +532,7 @@ function World:save()
         player = self.player
     }
 
-    local jsonString = json.encode(saveData)
+    local jsonString = json.encode(saveData, {exception = handleException})
 
     -- You can use a unique file name for each world if you have multiple worlds
     local saveFileName = "world_save_" .. self.worldName .. ".json"
@@ -561,4 +569,15 @@ function World:load()
     else
         print("Could not load saved world data from " .. loadFileName)
     end
+end
+
+-- Helper function to filter out functions from a table
+function filterFunctions(table)
+    local filteredTable = {}
+    for key, value in pairs(table) do
+        if type(value) ~= "function" then
+            filteredTable[key] = value
+        end
+    end
+    return filteredTable
 end
