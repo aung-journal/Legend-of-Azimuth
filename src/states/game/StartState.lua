@@ -1,10 +1,13 @@
 StartState = Class{__includes = BaseState}
 
+--I have to add layer machine later to make 
+
 local selected = false
 
 function StartState:init()
     self.menu = {
-        "Play",
+        "Play", --this is Create a New World(I didn't change Play because there is state to go)
+        "", -- I might later add this as there will be some new state to go
         "Instructions",
         "Settings",
         "Achievements",
@@ -47,9 +50,11 @@ function StartState:update(dt)
 
     if love.mouse.isDown(1) then
         for i, option in ipairs(table.exclude(self.menu, #self.menu)) do
-            if self.currentMenuItem == i then
-                gStateMachine:change(option:lower())
-                gSounds['selection']:play()
+            if option ~= '' then
+                if self.currentMenuItem == i then
+                    gStateMachine:change(option:lower())
+                    gSounds['selection']:play()
+                end
             end
         end
         if self.currentMenuItem == #self.menu then
@@ -59,7 +64,9 @@ function StartState:update(dt)
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         if self.currentMenuKeyItem ~= #self.menu then
-            gStateMachine:change(self.menu[self.currentMenuKeyItem]:lower())
+            if option ~= '' then
+                gStateMachine:change(self.menu[self.currentMenuKeyItem]:lower())
+            end
         else
             love.event.quit()
         end
@@ -89,6 +96,12 @@ function StartState:render()
 
     for i, option in ipairs(self.menu) do
         -- draw option text shadow
+        if i == 1 then
+            option = "Create a New World"
+        elseif i == 2 then
+            option = "Load previous World" --this part will be a new state
+        end
+
         self:drawTextShadow(option, 54 + (i - 1) * 28)
 
         -- set color based on current menu item

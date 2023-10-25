@@ -1,6 +1,9 @@
 World = Class{}
 
 function World:init(player, width, height, camX, camY)
+    --file loading and saving number
+    self.worldName = 1
+
     self.camX = camX
     self.camY = camY
 
@@ -40,6 +43,9 @@ function World:init(player, width, height, camX, camY)
 
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
+
+    self:save()
+    --self:load()
 end
 
 local function calculateRegionNumber(x, y, regionWidth, regionHeight)
@@ -499,10 +505,60 @@ function World:render()
     end
 end
 
+--extra functions for the World class
+
 function World:updateCamera()
     local targetX = self.player.x - VIRTUAL_WIDTH/2
     local targetY = self.player.y - VIRTUAL_HEIGHT/2
 
     self.camX = math.max(0, math.min(TILE_SIZE * self.width - VIRTUAL_WIDTH, targetX))
     self.camY = math.max(0, math.min(TILE_SIZE * self.height - VIRTUAL_HEIGHT, targetY))
+end
+
+function World:save()
+    local saveData = {
+        items = self.items,
+        entities = self.entities,
+        objects = self.objects,
+        tiles = self.tiles,
+        player = self.player
+    }
+
+    local jsonString = json.encode(saveData)
+
+    -- You can use a unique file name for each world if you have multiple worlds
+    local saveFileName = "world_save_" .. self.worldName .. ".json"
+
+    local success, message = love.filesystem.write(saveFileName, jsonString)
+
+    if success then
+        print("World saved to " .. saveFileName)
+    else
+        print("Error saving world data: " .. message)
+    end
+end
+
+function World:load()
+    local loadFileName = "world_save_" .. self.worldName .. ".json"
+
+    local jsonString, size = love.filesystem.read(loadFileName)
+
+    if jsonString then
+        local saveData, pos, err = json.decode(jsonString)
+
+        if not err then
+            -- Populate the world object with loaded data
+            self.items = saveData.items
+            self.entities = saveData.entities
+            self.objects = saveData.objects
+            self.tiles = saveData.tiles
+            self.player = saveData.player
+
+            print("World loaded from " .. loadFileName)
+        else
+            print("Error decoding saved world data: " .. err)
+        end
+    else
+        print("Could not load saved world data from " .. loadFileName)
+    end
 end

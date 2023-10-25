@@ -1,0 +1,26 @@
+-- Initialize a variable to store typed text
+local typedText = ""
+
+function love.keypressed(key, scancode, isrepeat)
+    if not isrepeat then
+        if key == "backspace" then
+            -- Handle backspace key
+            typedText = typedText:sub(1, -2) -- Remove the last character
+        elseif key == "return" then
+            -- Handle enter key (e.g., submit typed text)
+        end
+    end
+end
+
+function love.textinput(text)
+    -- Check if the text input is a single character (not a control character)
+    if text:len() == 1 then
+        -- Append the typed text
+        typedText = typedText .. text
+    end
+end
+
+function love.draw()
+    love.graphics.print("Typed Text: " .. typedText, 10, 10)
+end
+

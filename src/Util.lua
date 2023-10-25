@@ -152,57 +152,6 @@ function reconstructPath(cameFrom, current)
     return path
 end    
 
---file loading and saving functions
-
--- Function to save an array to an LST file in the project directory
-function saveArrayToProjectDirectory(array, filename, dest)
-    -- Serialize the array to a string using serpent
-    local serializedArray = serpent.dump(array, {compact = false})
-
-    local path
-    
-    -- Define the path within your project directory
-    if dest then
-        path = dest .. filename
-    else
-        path = gMapPath .. filename
-    end
-    
-    -- Save the serialized data to the specified file
-    love.filesystem.write(path, serializedArray)
-end
-
--- Function to load an array from an LST file in the project directory
-function loadArrayFromProjectDirectory(filename, dest)
-    local path
-
-    -- Define the path within your project directory
-    if dest then
-        path = dest .. filename
-    else
-        path = gMapPath .. filename
-    end
-
-    -- Check if the file exists
-    if love.filesystem.getInfo(path) then
-        -- Load the file content
-        local fileContent, size = love.filesystem.read(path)
-
-        -- Deserialize the content using loadstring or load
-        local success, array = pcall(loadstring(fileContent))
-
-        if success and type(array) == "table" then
-            return array
-        else
-            -- If deserialization failed or the loaded data is not a table, handle the error or return an empty array
-            return {}
-        end
-    else
-        -- If the file doesn't exist, handle the error or return an empty array
-        return {}
-    end
-end
-
 --[[
     Given an "atlas" (a texture with multiple sprites), as well as a
     width and a height for the tiles therein, split the texture into

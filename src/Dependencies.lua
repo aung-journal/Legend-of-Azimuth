@@ -7,6 +7,8 @@ Event = require 'lib/knife.event'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
 serpent = require 'lib/serpent'
+--this is the class to save my worlds which are in lua arrays
+json = require 'lib/dkjson'
 
 require 'src/Animation'
 require 'src/constants'
