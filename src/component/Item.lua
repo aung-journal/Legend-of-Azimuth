@@ -31,9 +31,7 @@ function Item:init(def, x, y, player)
     self.xScale = def.xScale or 1
     self.yScale = def.yScale or 1
 
-    self.onCollide = function(player)
-        player.inventory = player.inventory + self
-    end
+    self.onCollide = function() end
 end
 
 function Item:update(dt)

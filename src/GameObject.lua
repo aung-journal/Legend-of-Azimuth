@@ -49,3 +49,26 @@ function GameObject:render(adjacentOffsetX, adjacentOffsetY)
             self.x + adjacentOffsetX, self.y + adjacentOffsetY)
     end
 end
+
+--these are the functions to actually decode and encode the string to a file possible
+-- Inside the Object class definition
+function GameObject:toTable()
+    -- Create a table containing the essential properties of the object
+    local objectTable = {
+        x = self.x,
+        y = self.y,
+        width = self.width,
+        height = self.height,
+        type = self.type,
+        texture = self.texture,
+        frame = self.frame,
+        frames = self.frames,
+        state = self.state,
+        defaultState = self.defaultState,
+        
+        solid = self.solid,
+        onCollide = nil  -- This can't be directly serialized as a function
+    }
+
+    return objectTable
+end

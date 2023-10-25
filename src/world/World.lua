@@ -44,8 +44,8 @@ function World:init(player, width, height, camX, camY)
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
 
-    self:save()
-    self:load()
+    -- self:save()
+    -- self:load()
 end
 
 local function calculateRegionNumber(x, y, regionWidth, regionHeight)
@@ -447,7 +447,7 @@ function World:update(dt)
     -- Remove items from the self.items table
     for i = #itemsToRemove, 1, -1 do
         table.remove(self.items, itemsToRemove[i])
-    end    
+    end
 end
 
 function World:render()
@@ -519,7 +519,7 @@ end
 local function handleException(value)
     -- You can customize how to handle the exception value here
     -- For example, you can convert it to a string or handle it in a specific way
-    return filterFunctions(value)
+    return value
 end
 
 function World:save()
@@ -569,15 +569,4 @@ function World:load()
     else
         print("Could not load saved world data from " .. loadFileName)
     end
-end
-
--- Helper function to filter out functions from a table
-function filterFunctions(table)
-    local filteredTable = {}
-    for key, value in pairs(table) do
-        if type(value) ~= "function" then
-            filteredTable[key] = value
-        end
-    end
-    return filteredTable
 end
